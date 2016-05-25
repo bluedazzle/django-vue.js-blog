@@ -1,0 +1,87 @@
+.article {
+    margin-top: 1em;
+}
+
+body {
+    min-width: 460px;
+}
+
+@media screen and (max-width: 1080px) {
+    #vBase {
+        display: none;
+    }
+
+    #jumo {
+        display: none;
+    }
+
+    .hidden-my {
+        display: none;
+    }
+
+    #right-content {
+        width: 100%;
+    }
+
+    .tags {
+        display: none;
+    }
+}
+
+#myNav {
+    z-index: 9999;
+}
+
+.preloader-item {
+    width: 100%;
+    height: 300px;
+    text-align: center;
+    padding-top: 150px;
+}
+
+a:hover {
+    color: white;
+}
+
+h1 {
+    font-size: 3.5rem;
+}
+
+h4 {
+    font-size: 2rem;
+}
+
+.mycomment {
+    width: 100%;
+    max-width: 1080px;
+}
+
+.red-card {
+    background-color: #ee6e73;
+    display: block;
+}
+
+.list-icon {
+    margin-right: 0.1rem;
+}
+
+.light-red {
+    color: #ee6e73;
+}
+
+.tool-header {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+@media screen and (max-width: 800px) {
+    .hidden-mobile {
+        display: none;
+    }
+}
+
+.about-card {
+    margin-top: 20px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}

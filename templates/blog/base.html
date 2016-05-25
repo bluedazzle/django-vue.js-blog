@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="keywords" content="个人博客,rapospectre,个人博客模板,rapo,个人网站模版,django,python,网站建设">
+    <meta name="description" content="rapospectre的个人网站，web知识与探索，django与python技术资料，网页模版下载，个人网站建设"/>
+    <link href="/img/header.png" rel="shortcut icon"/>
+    {#    <meta name="viewport" content="width=device-width, initial-scale=1">#}
+    <link rel="stylesheet" href="/s/css/materialize.css">
+    <link rel="stylesheet" href="/s/css/semantic.min.css">
+    <link rel="stylesheet" href="/s/css/main.css">
+    {% block css %}
+    {% endblock %}
+    <title>{% block title %}{{ blogtitle }}{% endblock %}</title>
+</head>
+<body style="background-color: #F9F9F5;">
+<div id="jumo" class="center-align" style="height: 400px; background-color: #1e88e5;">
+    <img src="http://www.rapospectre.com/img/MYLOGO3.png" style="margin-top: 50px;" alt="">
+</div>
+<nav id="myNav">
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">RaPo</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li class="waves-effect"><a href="/">首页</a></li>
+            <li class="waves-effect"><a href="/blogs">博客</a></li>
+            <li class="waves-effect"><a href="/about">关于</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="row">
+
+    <div class="col m3" id="vBase">
+        <div class="collection with-header">
+            <div class="collection-header " style="background-color: #ee6e73;color: white;"><h4
+                    style="margin-top: 1em; margin-bottom: 0.5em;">最近</h4></div>
+            <a class=" collection-item waves-effect" href="/blog/${ blog.id }}" v-for="blog in latest">
+                <div class="content"><h5 style="font-size: 1.2em;"><i class="ui eye icon"></i>${ blog.title }}</h5>
+                    <div class="sub header"><i class="ui time icon"></i>${ blog.create_time }}</div>
+                </div>
+            </a>
+        </div>
+        <div class="collection with-header">
+            <div class="collection-header light-red " style="background-color: #ee6e73;color: white;"><h4
+                    style="margin-top: 1em; margin-bottom: 0.5em;">最热</h4></div>
+            <a class=" collection-item waves-effect" href="/blog/${ blog.id }}" v-for="blog in popular">
+                <div class="content"><h5 style="font-size: 1.2em;"><i class="ui fire icon"></i>${ blog.title }}</h5>
+                    <div class="sub header"><i class="ui eye icon"></i>${ blog.views }}</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div id="right-content" class="col s12 m9">
+        <div>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+</div>
+{#<footer class="page-footer">#}
+{#    <div class="footer-copyright">#}
+{#        <div class="container">#}
+{#            © 2014 Copyright Text#}
+{#            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>#}
+{#        </div>#}
+{#    </div>#}
+{#</footer>#}
+<script src="http://cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/vue/1.0.17/vue.min.js"></script>
+<script src="http://cdn.bootcss.com/vue-resource/0.7.0/vue-resource.min.js"></script>
+<script src="/s/js/src/http.js"></script>
+<script src="/s/js/materialize.min.js"></script>
+<script src="/s/js/stickUp.min.js"></script>
+<script src="/s/js/semantic.min.js"></script>
+<script src="/s/js/src/base.js"></script>
+<script type="text/javascript">
+    //initiating jQuery
+    jQuery(function ($) {
+        $(document).ready(function () {
+            //enabling stickUp on the '.navbar-wrapper' class
+            $('#myNav').stickUp();
+        });
+    });
+
+</script>
+
+{% block js %}
+{% endblock %}
+</body>
+</html>
