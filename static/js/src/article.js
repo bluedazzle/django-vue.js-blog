@@ -73,7 +73,7 @@ var vm = new Vue({
         getUserInfo: function () {
             url = generateUrl('api/v1/user/info');
             this.$http.get(url, function (data) {
-                if (data.status == 1) {
+                if (data.status == 1 || data.status == 3) {
                     this.$set('avatar', data.body.avatar);
                 }
             })
