@@ -1,6 +1,7 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
+import json
 import random
 import string
 import markdown
@@ -18,7 +19,7 @@ from core.dss.Mixin import JsonResponseMixin, MultipleJsonResponseMixin, FormJso
 # Create your views here.
 from core.dss.Serializer import serializer
 from core.github import get_github_auth, get_access_token, get_user_info
-from core.utils import save_image
+from core.utils import save_image, upload_picture
 from myguest.models import Guest
 
 
@@ -230,5 +231,17 @@ class TagView(CheckTokenMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListV
     http_method_names = ['get']
     include_attr = ['title', 'id']
     model = Tag
+
+
+class UploadView(CheckTokenMixin, StatusWrapMixin, CreateView):
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        image_file = request.FILES.get('editormd-image-file')
+        path, sp = upload_picture(image_file)
+        data = json.dumps({'url': path,
+                           'success': 1,
+                           'message': '成功'})
+        return HttpResponse(data, content_type='application/json')
 
 

@@ -17,6 +17,9 @@
                     <label>文章标题:</label>
                     <input type="text" name="title" placeholder="文章标题" v-model="article.title">
                 </div>
+                <div class="form-group">
+                    <div id="mdEditor"></div>
+                </div>
                 <div class="field">
                     <label for="">分类</label>
                     <select name="belong" v-model="article.classification" id="classification" class="ui search dropdown">
@@ -30,10 +33,6 @@
                         <option value="">选择标签</option>
                         <option v-for="tag in tags" value="${ tag.id }}">${ tag.title }}</option>
                     </select>
-                </div>
-                <div style="height: 100px;"></div>
-                <div class="form-group">
-                    <div id="mdEditor"></div>
                 </div>
                 <div class="field">
                     <input @click="submitArticle" class="ui green button" value="提交"></input>

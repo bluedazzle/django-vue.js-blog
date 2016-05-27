@@ -2,6 +2,9 @@
 from __future__ import unicode_literals
 
 import requests
+import time
+
+from PIL import Image
 
 from RaPo3.settings import BASE_DIR
 
@@ -22,3 +25,12 @@ def save_image(url, name="default.jpg"):
         return False, None
     except Exception, e:
         return False, None
+
+
+def upload_picture(pic_file):
+    pic_name = "{0}{1}".format(unicode(time.time()).replace('.', ''), pic_file.name)
+    pic_path = '/upload/image/{0}'.format(pic_name)
+    save_path = UPLOAD_PATH + pic_path
+    img = Image.open(pic_file)
+    img.save(save_path)
+    return '/s{0}'.format(pic_path), save_path

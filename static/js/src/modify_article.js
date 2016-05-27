@@ -63,7 +63,7 @@ var vm = new Vue({
                             //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
                             imageUpload: true,
                             imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                            imageUploadURL: "./php/upload.php"
+                            imageUploadURL: "/api/v1/upload"
                         });
                     }
                     $('#tag').dropdown('set exactly', arr);
@@ -95,7 +95,7 @@ var vm = new Vue({
                     //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
                     imageUpload: true,
                     imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                    imageUploadURL: "./php/upload.php"
+                    imageUploadURL: "/api/v1/upload"
                 });
             }
         },
