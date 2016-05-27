@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理登陆</title>
+    <link rel="stylesheet" href="/s/css/materialize.min.css">
+    <link rel="stylesheet" href="/s/css/main.css">
+</head>
+<body style="background-color: #1e88e5;">
+<div class="row center-align" id="vLogin">
+    <div class="admin-login admin-login-big">
+        <div class="card defaultCard default-page-margin-top">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="row left-align">
+                            <div class="input-field col s12">
+                                <input id="icon_prefix" type="text" class="validate" v-model="loginData.username">
+                                <label for="icon_prefix">账户</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="icon_telephone" type="password" class="validate" v-model="loginData.password">
+                                <label for="icon_telephone">密码</label>
+                            </div>
+                            <div class="col s12 right-align">
+                                <button class="waves-effect waves-light btn" @click="login">登陆</button>
+                            </div>
+                        </div>
+                    </d>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://cdn.bootcss.com/vue/1.0.17/vue.min.js"></script>
+<script src="http://cdn.bootcss.com/vue-resource/0.7.0/vue-resource.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/s/js/src/http.js"></script>
+<script src="/s/js/materialize.min.js"></script>
+<script src="/s/js/src/admin_login.js"></script>
+</body>
+</html>

@@ -75,8 +75,16 @@ h4 {
 }
 
 @media screen and (max-width: 800px) {
-    .hidden-mobile {
-        display: none;
+    .admin-login {
+        width: 80%;
+        margin: 100px auto;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .admin-login-big {
+        width: 40%;
+        margin: 100px auto;
     }
 }
 
@@ -85,3 +93,5 @@ h4 {
     padding-top: 50px;
     padding-bottom: 50px;
 }
+
+[v-cloak] { display: none; }

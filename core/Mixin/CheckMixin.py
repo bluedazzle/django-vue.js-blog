@@ -104,12 +104,12 @@ class CheckAdminPermissionMixin(object):
     admin = None
 
     def get_current_token(self):
-        self.token = self.request.GET.get('token') or self.request.GET.session.get('token', '')
+        self.token = self.request.GET.get('token') or self.request.session.get('token', '')
         return self.token
 
     def check_token(self):
         self.get_current_token()
-        admin_list = EAdmin.objects.filter(token=self.token)
+        admin_list = Guest.objects.filter(token=self.token, email='rapospectre@gmail.com')
         if admin_list.exists():
             self.admin = admin_list[0]
             return True
@@ -128,6 +128,6 @@ class CheckAdminPagePermissionMixin(object):
     def dispatch(self, request, *args, **kwargs):
         token = request.session.get('token')
         if token:
-            if EAdmin.objects.filter(token=token).exists():
+            if Guest.objects.filter(token=token, email='rapospectre@gmail.com').exists():
                 return super(CheckAdminPagePermissionMixin, self).dispatch(request, *args, **kwargs)
         return HttpResponseRedirect('/admin/login')

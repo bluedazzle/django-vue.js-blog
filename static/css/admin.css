@@ -1,0 +1,35 @@
+
+body {
+    font-family: "Microsoft YaHei UI";
+}
+
+.boloContainer {
+    margin: 3%;
+}
+
+.colorBlue {
+    color: 4183C4;
+}
+
+.colorGreen {
+    color: #21BA45;
+}
+
+.colorOrange {
+    color: #F2711C;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+#tournamentList>.item {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+[v-cloak] { display: none; }
+
+#tournamentList>.item:hover {
+    cursor: pointer;
+}

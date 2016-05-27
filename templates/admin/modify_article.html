@@ -1,0 +1,56 @@
+{% extends "admin/admin_base.html" %}
+{% block css %}
+    <link rel="stylesheet" href="/s/css/editormd.min.css">
+{% endblock %}
+{% block content %}
+    <div class="boloContainer" id="vModifyArticle">
+        <input type="hidden" value="{{ article.id }}" v-model="article.id">
+        <div class="ui breadcrumb">
+            <a class="section" href="/admin/article">文章</a>
+            <i class="right angle icon divider"></i>
+            <a class="section" href="#">${ article.id == '' ? '新文章' : article.title}}</a>
+        </div>
+        <div class="ui divider"></div>
+        <div>
+            <div  class="ui form" >
+                <div class="field">
+                    <label>文章标题:</label>
+                    <input type="text" name="title" placeholder="文章标题" v-model="article.title">
+                </div>
+                <div class="field">
+                    <label for="">分类</label>
+                    <select name="belong" v-model="article.classification" id="classification" class="ui search dropdown">
+                        <option value="">选择分类</option>
+                        <option v-for="class in classifications" value="${ class.id }}">${ class.title }}</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>标签 ${ article.tag }}</span></label>
+                    <select multiple="" v-model="article.tags" id="tag" class="ui search dropdown">
+                        <option value="">选择标签</option>
+                        <option v-for="tag in tags" value="${ tag.id }}">${ tag.title }}</option>
+                    </select>
+                </div>
+                <div style="height: 100px;"></div>
+                <div class="form-group">
+                    <div id="mdEditor"></div>
+                </div>
+                <div class="field">
+                    <input @click="submitArticle" class="ui green button" value="提交"></input>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="/s/lib/prettify.min.js"></script>
+    <script src="/s/lib/raphael.min.js"></script>
+    <script src="/s/lib/underscore.min.js"></script>
+    <script src="/s/lib/sequence-diagram.min.js"></script>
+    <script src="/s/lib/flowchart.min.js"></script>
+    <script src="/s/lib/jquery.flowchart.min.js"></script>
+    <script src="/s/lib/marked.min.js"></script>
+    <script src="/s/js/editormd.js"></script>
+    <script src="/s/js/sco.message.js"></script>
+    <script src="/s/js/src/modify_article.js"></script>
+{% endblock %}

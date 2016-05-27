@@ -93,4 +93,6 @@ STATIC_URL = '/static/'
 
 STATIC_MEDIA = './static/'
 
+STATIC_ROOT = './static/'
+
 TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)

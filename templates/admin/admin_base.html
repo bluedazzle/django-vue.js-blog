@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}网站管理{% endblock %}</title>
+    <link rel="stylesheet" href="/s/css/semantic.min.css">
+    <link rel="stylesheet" href="/s/css/admin.css">
+    <link rel="stylesheet" href="/s/css/sco.message.css">
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+<nav id="vBase" class="ui menu" style="margin: -1px 0;">
+    <div class="ui header item">
+        <img src="/s/image/site/logob.png" height="30px;" style="margin-right: 10px;">
+        网站管理
+    </div>
+    </div>
+    <div class=" right menu" v-cloak id="vBase">
+        <div id="admin_dropdown" class="ui dropdown item">
+            <img class="ui mini circular image" src="${ admin.avatar }}">
+            <div class="content">
+                <div class="ui sub header">管理员</div>
+                ${ admin.nick }}
+                <i class="dropdown icon"></i>
+            </div>
+            <div class="menu">
+                <a href="/admin/setting" class="item"><i class="ui icon setting"></i>设置</a>
+                <div @click="logout" class="item"><i class="ui icon sign out"></i>退出</div>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="ui bottom attached segment pushable">
+    <div class="ui visible left vertical sidebar menu">
+        <a class="item" href="/admin/index"><i class="dashboard icon"></i> 控制台 </a>
+        <a class="item" href="/admin/article"><i class="block newspaper icon"></i> 文章 </a>
+        <a class="item" href="/admin/comment"><i class="game icon"></i> 留言 </a>
+    </div>
+    <div class="pusher" style="width: 80%;">
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+<script src="http://cdn.bootcss.com/vue/1.0.17/vue.min.js"></script>
+<script src="http://cdn.bootcss.com/vue-resource/0.7.0/vue-resource.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/s/js/semantic.min.js"></script>
+<script src="/s/js/src/http.js"></script>
+<script src="/s/js/src/admin_base.js"></script>
+<script src="/s/js/sco.message.js"></script>
+<script>
+    $('#admin_dropdown').dropdown({
+        on: 'hover'
+    });
+</script>
+{% block script %}
+{% endblock %}
+</body>
+</html>

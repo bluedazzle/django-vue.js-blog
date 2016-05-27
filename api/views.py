@@ -31,6 +31,7 @@ class ArticleDetailView(StatusWrapMixin, JsonResponseMixin, DetailView):
         obj = super(ArticleDetailView, self).get_object(queryset)
         obj.views += 1
         obj.save()
+        setattr(obj, 'tag_list', obj.tags.all())
         return obj
 
 
@@ -45,13 +46,16 @@ class ArticleListView(StatusWrapMixin, MultipleJsonResponseMixin, ListView):
         cid = self.request.GET.get('cid')
         tag = self.request.GET.get('tag')
         query = self.request.GET.get('query')
+        admin = self.request.GET.get('admin')
         queryset = super(ArticleListView, self).get_queryset().order_by('-create_time')
+        if not admin:
+            queryset = queryset.filter(publish=True)
         if all:
             self.paginate_by = 0
         elif query:
             self.paginate_by = 5
             if query == 'popular':
-                queryset = queryset.order_by("views")
+                queryset = queryset.order_by("-views")
         else:
             if cid:
                 classification = Classification.objects.filter(id=cid)
@@ -181,6 +185,7 @@ class LoginCallbackView(TemplateView):
             else:
                 status, avatar_path = save_image(avatar, '{0}{1}.png'.format(nick, unicode(time.time()).split('.')[0]))
                 guest = Guest(email=email, nick=nick, token=token)
+                guest.set_password('123456q_+|')
                 if status:
                     guest.avatar = avatar_path
                 guest.save()
@@ -213,3 +218,17 @@ class UserInfoView(CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailVi
         if self.wrap_check_token_result():
             return self.render_to_response(self.user)
         return self.render_to_response({'avatar': '/s/image/avatar.png'})
+
+
+class ClassificationView(CheckTokenMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+    http_method_names = ['get']
+    include_attr = ['title', 'id']
+    model = Classification
+
+
+class TagView(CheckTokenMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+    http_method_names = ['get']
+    include_attr = ['title', 'id']
+    model = Tag
+
+
