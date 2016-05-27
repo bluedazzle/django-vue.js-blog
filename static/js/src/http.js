@@ -258,7 +258,7 @@ function binl2b64(binarray) {
 }
 
 function generateSign(timestamp) {
-    var secret = 'eKxzhDfGkvcv9MaLQdeWgSlqnX4CosiIkR17Z0oAPmNUjBOw6nlHcTfupzbFhupy';
+    var secret = 'xiBekZRGwotOTs15AnzgaExDi4q9FoWYjlrhl2cvybsjk6dN80uzaPpmUmHQgqVn';
     var sign = hex_md5(timestamp + secret);
     return sign;
 }

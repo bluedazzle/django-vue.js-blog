@@ -1,14 +1,18 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
+import random
+import string
+
 import requests
 import time
 
 from PIL import Image
 
-from RaPo3.settings import BASE_DIR
 
-UPLOAD_PATH = BASE_DIR + '/static'
+# from RaPo3.settings import BASE_DIR
+#
+# UPLOAD_PATH = BASE_DIR + '/static'
 
 
 def save_image(url, name="default.jpg"):
@@ -34,3 +38,12 @@ def upload_picture(pic_file):
     img = Image.open(pic_file)
     img.save(save_path)
     return '/s{0}'.format(pic_path), save_path
+
+
+def create_token(count):
+    return string.join(
+        random.sample('ZYXWVUTSRQPONMLKJIHGFEDCBA1234567890zyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcba',
+                      count)).replace(" ", "")
+
+
+print create_token(64)

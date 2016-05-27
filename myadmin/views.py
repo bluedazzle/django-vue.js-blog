@@ -10,14 +10,14 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView
 
 from api.models import Article, Comment, CommentReply, Classification, Tag
-from core.Mixin.CheckMixin import CheckTokenMixin, CheckAdminPermissionMixin
+from core.Mixin.CheckMixin import CheckTokenMixin, CheckAdminPermissionMixin, CheckSecurityMixin
 from core.Mixin.JsonRequestMixin import JsonRequestMixin
 from core.Mixin.StatusWrapMixin import *
 from core.dss.Mixin import JsonResponseMixin, MultipleJsonResponseMixin, FormJsonResponseMixin
 from myguest.models import Guest
 
 
-class LoginView(StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, UpdateView):
+class LoginView(CheckSecurityMixin, StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, UpdateView):
     http_method_names = ['post']
     count = 64
 
@@ -45,7 +45,7 @@ class LoginView(StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, UpdateView
                           self.count)).replace(" ", "")
 
 
-class LogoutView(StatusWrapMixin, JsonResponseMixin, DetailView):
+class LogoutView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
     http_method_names = ['get']
 
     def get(self, request, *args, **kwargs):
@@ -53,7 +53,7 @@ class LogoutView(StatusWrapMixin, JsonResponseMixin, DetailView):
         return self.render_to_response(dict())
 
 
-class ModifyArticleView(CheckAdminPermissionMixin, StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, UpdateView):
+class ModifyArticleView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, UpdateView):
     http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
@@ -83,17 +83,19 @@ class ModifyArticleView(CheckAdminPermissionMixin, StatusWrapMixin, JsonRequestM
         return self.render_to_response(dict())
 
 
-class AdminInfoView(CheckAdminPermissionMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+class AdminInfoView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
     http_method_names = ['get']
     include_attr = ['nick', 'avatar']
 
     def get(self, request, *args, **kwargs):
+        if not self.wrap_check_sign_result():
+            return self.render_to_response(dict())
         if not self.wrap_check_token_result():
             return self.render_to_response(dict())
         return self.render_to_response(self.admin)
 
 
-class ArticlePublishView(CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+class ArticlePublishView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
     http_method_names = ['get']
     model = Article
     pk_url_kwarg = 'aid'

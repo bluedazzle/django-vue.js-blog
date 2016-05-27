@@ -11,7 +11,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
 
 from api.models import Article, Comment, CommentReply, Classification, Tag
-from core.Mixin.CheckMixin import CheckTokenMixin
+from core.Mixin.CheckMixin import CheckTokenMixin, CheckSecurityMixin
 from core.Mixin.JsonRequestMixin import JsonRequestMixin
 from core.Mixin.StatusWrapMixin import *
 from core.dss.Mixin import JsonResponseMixin, MultipleJsonResponseMixin, FormJsonResponseMixin
@@ -23,7 +23,7 @@ from core.utils import save_image, upload_picture
 from myguest.models import Guest
 
 
-class ArticleDetailView(StatusWrapMixin, JsonResponseMixin, DetailView):
+class ArticleDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
     model = Article
     pk_url_kwarg = 'aid'
     foreign = True
@@ -36,7 +36,7 @@ class ArticleDetailView(StatusWrapMixin, JsonResponseMixin, DetailView):
         return obj
 
 
-class ArticleListView(StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+class ArticleListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     model = Article
     foreign = True
     exclude_attr = ['content', 'modify_time']
@@ -90,7 +90,7 @@ class ArticleListView(StatusWrapMixin, MultipleJsonResponseMixin, ListView):
         setattr(article, 'tag_list', tag_list)
 
 
-class CommentListView(StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+class CommentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     http_method_names = ['get']
     model = Comment
     foreign = True
@@ -114,7 +114,7 @@ class CommentListView(StatusWrapMixin, MultipleJsonResponseMixin, ListView):
             setattr(comment, 'replies', [])
 
 
-class CommentView(CheckTokenMixin, StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, CreateView):
+class CommentView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, CreateView):
     http_method_names = ['post']
     model = Comment
     count = 32
@@ -211,29 +211,33 @@ class LoginCallbackView(TemplateView):
                           self.count)).replace(" ", "")
 
 
-class UserInfoView(CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+class UserInfoView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
     http_method_names = ['get']
     include_attr = ['nick', 'id', 'avatar']
 
     def get(self, request, *args, **kwargs):
+        if not self.wrap_check_sign_result():
+            self.message = 'sign 验证失败'
+            self.status_code = ERROR_PERMISSION_DENIED
+            return self.render_to_response(dict())
         if self.wrap_check_token_result():
             return self.render_to_response(self.user)
         return self.render_to_response({'avatar': '/s/image/avatar.png'})
 
 
-class ClassificationView(CheckTokenMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+class ClassificationView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     http_method_names = ['get']
     include_attr = ['title', 'id']
     model = Classification
 
 
-class TagView(CheckTokenMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+class TagView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     http_method_names = ['get']
     include_attr = ['title', 'id']
     model = Tag
 
 
-class UploadView(CheckTokenMixin, StatusWrapMixin, CreateView):
+class UploadView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, CreateView):
     http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
