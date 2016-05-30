@@ -10,9 +10,9 @@ import time
 from PIL import Image
 
 
-# from RaPo3.settings import BASE_DIR
-#
-# UPLOAD_PATH = BASE_DIR + '/static'
+from RaPo3.settings import BASE_DIR
+
+UPLOAD_PATH = BASE_DIR + '/static'
 
 
 def save_image(url, name="default.jpg"):
@@ -44,6 +44,3 @@ def create_token(count):
     return string.join(
         random.sample('ZYXWVUTSRQPONMLKJIHGFEDCBA1234567890zyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcba',
                       count)).replace(" ", "")
-
-
-print create_token(64)
