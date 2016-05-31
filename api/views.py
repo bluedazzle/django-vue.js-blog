@@ -19,8 +19,10 @@ from core.dss.Mixin import JsonResponseMixin, MultipleJsonResponseMixin, FormJso
 # Create your views here.
 from core.dss.Serializer import serializer
 from core.github import get_github_auth, get_access_token, get_user_info
-from core.utils import save_image, upload_picture
+from core.utils import save_image, upload_picture, send_html_mail
 from myguest.models import Guest
+
+from django.core.mail import send_mail
 
 
 class ArticleDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
@@ -114,7 +116,8 @@ class CommentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseM
             setattr(comment, 'replies', [])
 
 
-class CommentView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, CreateView):
+class CommentView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonRequestMixin, JsonResponseMixin,
+                  CreateView):
     http_method_names = ['post']
     model = Comment
     count = 32
@@ -158,6 +161,9 @@ class CommentView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonRequ
         else:
             comment.author = self.user
             comment.save()
+            send_mail('新评论', '你有一条新评论, 请登陆查看', 'rapospectre@gmail.com', fail_silently=True)
+            if isinstance(comment, CommentReply):
+                send_html_mail('评论回复', comment.to, comment.comment.belong, [comment.to.email])
             return self.render_to_response(dict())
 
     def generate_state(self):
@@ -196,12 +202,14 @@ class LoginCallbackView(TemplateView):
                 comment = CommentReply.objects.filter(state=state)
             else:
                 aid = comment[0].belong.id
+                send_mail('新评论', '你有一条新评论, 请登陆查看', 'rapospectre@gmail.com', fail_silently=True)
             if comment.exists():
                 comment = comment[0]
                 comment.author = guest
                 comment.save()
                 if aid == 0:
-                    aid = comment.coment.belong.id
+                    aid = comment.comment.belong.id
+                    send_html_mail('评论回复', comment.to, comment.comment.belong, [comment.to.email])
             request.session['token'] = token
             return HttpResponseRedirect('/blog/{0}'.format(aid))
 
@@ -247,5 +255,3 @@ class UploadView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, CreateVie
                            'success': 1,
                            'message': '成功'})
         return HttpResponse(data, content_type='application/json')
-
-

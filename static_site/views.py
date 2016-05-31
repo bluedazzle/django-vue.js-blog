@@ -66,3 +66,14 @@ class AdminModifyArticleView(CheckAdminPagePermissionMixin, DetailView):
         if not self.kwargs.get(self.pk_url_kwarg, None):
             return None
         return super(AdminModifyArticleView, self).get_object(queryset)
+
+
+class EmailView(TemplateView):
+    http_method_names = ['get']
+    template_name = 'email.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(EmailView, self).get_context_data(**kwargs)
+        context['article'] = Article.objects.all()[0]
+        context['guest'] = Article.objects.all()[0]
+        return context

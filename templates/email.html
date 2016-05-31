@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div style="width: 30%; height: 350px; margin: auto; background-color: #ee6e73; color: white; font-family: 'Microsoft YaHei'; padding: 20px;">
+    <img src="http://www.rapospectre.com/s/image/mylogo.png" width="100%" alt="">
+    <div style="background-color: #1e88e5; padding: 10px; margin-top: 20px; margin-bottom: 20px;">
+        <div>嗨, {{ guest.nick }}:</div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 还记得你在 <a href="http://www.rapospectre.com">RaPo</a> 的博客文章 <a
+            href="http://www.rapospectre.com/blog/{{ article.id }}">{{ article.title }}</a> 下的留言吗? 有人回复你了哟,快去看看吧!
+        <br>
+        <div style="text-align: center;"><a href="http://www.rapospectre.com/blog/{{ article.id }}">点击查看</a></div>
+    </div>
+</div>
+<style type="text/css">
+    a:hover {
+        color: #e6e6e6;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+</style>
+</body>
+</html>

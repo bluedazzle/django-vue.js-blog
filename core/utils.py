@@ -8,9 +8,13 @@ import requests
 import time
 
 from PIL import Image
+from django.core.mail import EmailMessage
+from django.template import loader
 
+from RaPo3.settings import EMAIL_HOST_USER
 
 from RaPo3.settings import BASE_DIR
+from api.models import Article
 
 UPLOAD_PATH = BASE_DIR + '/static'
 
@@ -44,3 +48,11 @@ def create_token(count):
     return string.join(
         random.sample('ZYXWVUTSRQPONMLKJIHGFEDCBA1234567890zyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcba',
                       count)).replace(" ", "")
+
+
+def send_html_mail(subject, guest, article, recipient_list):
+    html_content = loader.render_to_string('email.html', {'guest': guest,
+                                                          'article': article})
+    msg = EmailMessage(subject, html_content, EMAIL_HOST_USER, recipient_list)
+    msg.content_subtype = "html"
+    msg.send()

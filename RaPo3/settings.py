@@ -96,3 +96,15 @@ STATIC_MEDIA = './static/'
 STATIC_ROOT = './static/'
 
 TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
+
+# email
+
+EMAIL_HOST = 'smtp.163.com'
+
+EMAIL_PORT = 25
+
+EMAIL_HOST_USER = 'bluedazzle@163.com'
+
+EMAIL_HOST_PASSWORD = ''
+
+DEFAULT_CHARSET = 'utf-8'
