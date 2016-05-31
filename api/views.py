@@ -161,7 +161,7 @@ class CommentView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonRequ
         else:
             comment.author = self.user
             comment.save()
-            send_mail('新评论', '你有一条新评论, 请登陆查看', ['rapospectre@gmail.com'], fail_silently=True)
+            send_mail('新评论', '你有一条新评论, 请登陆查看', 'bluedazzle@163.com', ['rapospectre@gmail.com'], fail_silently=True)
             if isinstance(comment, CommentReply):
                 send_html_mail('评论回复', comment.to, comment.comment.belong, [comment.to.email])
             return self.render_to_response(dict())
@@ -202,7 +202,7 @@ class LoginCallbackView(TemplateView):
                 comment = CommentReply.objects.filter(state=state)
             else:
                 aid = comment[0].belong.id
-                send_mail('新评论', '你有一条新评论, 请登陆查看', ['rapospectre@gmail.com'], fail_silently=True)
+                send_mail('新评论', '你有一条新评论, 请登陆查看', 'bluedazzle@163.com', ['rapospectre@gmail.com'], fail_silently=True)
             if comment.exists():
                 comment = comment[0]
                 comment.author = guest
