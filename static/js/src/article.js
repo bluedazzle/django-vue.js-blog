@@ -30,7 +30,7 @@ var vm = new Vue({
                     this.getComment();
                     this.clearComment();
                 }else if(data.status == 3){
-                    window.location = data.body.url;
+                    window.open(data.body.url);
                 }else {
                     $.scojs_message(data.msg, $.scojs_message.TYPE_ERROR);
                 }
@@ -53,11 +53,12 @@ var vm = new Vue({
                         markdown: this.article.content,//+ "\r\n" + $("#append-test").text(),
                         htmlDecode: "style,script,iframe",  // you can filter tags decode
                         tocm: true,    // Using [TOCM]
-                        emoji: true,
-                        taskList: true,
-                        tex: true,  // 默认不解析
-                        flowChart: true,  // 默认不解析
-                        sequenceDiagram: true  // 默认不解析
+                        emoji           : true,
+                        taskList        : true,
+                        tex             : true,  // 默认不解析
+                        flowChart       : true,  // 默认不解析
+                        sequenceDiagram : true  // 默认不解析
+
                     });
                 }
             })

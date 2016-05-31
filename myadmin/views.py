@@ -53,32 +53,36 @@ class LogoutView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailV
         return self.render_to_response(dict())
 
 
-class ModifyArticleView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonRequestMixin, JsonResponseMixin, UpdateView):
+class ModifyArticleView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonRequestMixin,
+                        JsonResponseMixin, UpdateView):
     http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
-        aid = request.POST.get('aid')
+        aid = request.POST.get('id')
         content = request.POST.get('content')
         tags = request.POST.get('tags')
         cid = request.POST.get('classification')
         publish = request.POST.get('publish', False)
         title = request.POST.get('title')
+        if not unicode(aid).isdigit():
+            aid = 0
         article = Article.objects.filter(id=aid)
         if article.exists():
             article = article[0]
             article.tags.clear()
         else:
             article = Article()
+            article.publish = publish
         article.content = content
         classification = Classification.objects.get(id=cid)
         article.classification = classification
         article.title = title
         article.save()
         for itm in tags:
-            tag = Tag.objects.filter(id=itm)
-            if tag.exists():
-                article.tags.add(tag[0])
-        article.publish = publish
+            if itm and itm != '':
+                tag = Tag.objects.filter(id=itm)
+                if tag.exists():
+                    article.tags.add(tag[0])
         article.save()
         return self.render_to_response(dict())
 
