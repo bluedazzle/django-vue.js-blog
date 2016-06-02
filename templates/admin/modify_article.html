@@ -12,7 +12,7 @@
         </div>
         <div class="ui divider"></div>
         <div>
-            <div  class="ui form" >
+            <div class="ui form">
                 <div class="field">
                     <label>文章标题:</label>
                     <input type="text" name="title" placeholder="文章标题" v-model="article.title">
@@ -22,7 +22,8 @@
                 </div>
                 <div class="field">
                     <label for="">分类</label>
-                    <select name="belong" v-model="article.classification" id="classification" class="ui search dropdown">
+                    <select name="belong" v-model="article.classification" id="classification"
+                            class="ui search dropdown">
                         <option value="">选择分类</option>
                         <option v-for="class in classifications" value="${ class.id }}">${ class.title }}</option>
                     </select>
@@ -52,4 +53,9 @@
     <script src="/s/js/editormd.js"></script>
     <script src="/s/js/sco.message.js"></script>
     <script src="/s/js/src/modify_article.js"></script>
+    <script>
+        window.onbeforeunload = function (e) {
+            return e.returnValue = '你真的要离开吗？';
+        };
+    </script>
 {% endblock %}
