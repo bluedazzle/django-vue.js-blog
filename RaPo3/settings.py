@@ -26,6 +26,8 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+HOST = 'http://www.rapospectre.com'
+
 
 # Application definition
 

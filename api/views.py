@@ -10,6 +10,7 @@ import time
 from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
 
+from RaPo3.settings import HOST
 from api.models import Article, Comment, CommentReply, Classification, Tag
 from core.Mixin.CheckMixin import CheckTokenMixin, CheckSecurityMixin
 from core.Mixin.JsonRequestMixin import JsonRequestMixin
@@ -251,7 +252,7 @@ class UploadView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, CreateVie
     def post(self, request, *args, **kwargs):
         image_file = request.FILES.get('editormd-image-file')
         path, sp = upload_picture(image_file)
-        data = json.dumps({'url': path,
+        data = json.dumps({'url': '{0}{1}'.format(HOST, path),
                            'success': 1,
                            'message': '成功'})
         return HttpResponse(data, content_type='application/json')
