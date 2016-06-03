@@ -27,6 +27,10 @@ var vm = new Vue({
             if(this.submit){
                 return 1;
             }
+            if(this.comment.content==''){
+                $.scojs_message('请输入评论内容', $.scojs_message.TYPE_ERROR);
+                return 1;
+            }
             this.submit = true;
             url = generateUrl('api/v1/article/' + this.aid + '/comment');
             this.$http.post(url, this.comment, function (data) {
