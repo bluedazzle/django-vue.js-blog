@@ -25,8 +25,11 @@
             <input type="hidden" v-model="aid" value="{{ article.id }}">
             <h1 class="center-align" style="margin-top: 10px;">${ article.title }}</h1>
             <div class="row">
-                <div class="col s6 left-align"><a class="ui label white-text waves-effect" style="background-color: #ee6e73;">${ article.classification.title }}</a>
-                    <a class="ui white-text label waves-effect" v-for="tag in article.tag_list">${ tag.title }}</a></div>
+                <div class="col s6 left-align"><a class="ui label white-text waves-effect"
+                                                  style="background-color: #ee6e73;">${ article.classification.title
+                    }}</a>
+                    <a class="ui white-text label waves-effect" v-for="tag in article.tag_list">${ tag.title }}</a>
+                </div>
                 <div class="col s6 right-align">${ article.create_time }}</div>
             </div>
             <div class="divider"></div>
@@ -75,6 +78,9 @@
                     </div>
                     <div class="row">
                         <div class="col s12">
+                            <div class="progress" v-show="submit">
+                                <div class="indeterminate"></div>
+                            </div>
                             <div class="row" style="margin-top: 20px;">
                                 <div class="col s1">
                                     <a class="comment avatar">
@@ -82,13 +88,16 @@
                                     </a>
                                 </div>
                                 <div class="input-field col s10">
-                                    <textarea id="comment" class="materialize-textarea" v-model="comment.content"></textarea>
+                                    <textarea id="comment" class="materialize-textarea"
+                                              v-model="comment.content"></textarea>
                                     <label for="comment">${ title }}</label>
                                 </div>
                                 <div class="col s1">
-                                    <button class="btn waves-effect waves-light" @click="createComment"
+                                    <button class="btn waves-effect waves-light" :class="{'disabled': submit }"
+                                            @click="createComment"
                                             style="margin-top: 65px; background-color: #ee6e73;">
-                                        <i class="github icon" style="font-size: 1.5em;">评论</i>
+                                        <i class="github icon" style="font-size: 1.5em;"></i>
+                                        ${ submit ? '评论中' : '评论' }}
                                     </button>
                                 </div>
                             </div>

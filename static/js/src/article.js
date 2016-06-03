@@ -13,7 +13,8 @@ var vm = new Vue({
             tid: 0
         },
         title: '留下评论',
-        aid: 0
+        aid: 0,
+        submit: false
     },
     methods: {
         replyMethod: function (cid, tid, nick) {
@@ -23,20 +24,27 @@ var vm = new Vue({
             this.title = '@' + nick + ':'
         },
         createComment: function () {
+            if(this.submit){
+                return 1;
+            }
+            this.submit = true;
             url = generateUrl('api/v1/article/' + this.aid + '/comment');
-            this.$http.post(url, this.comment, function(data){
-                if(data.status == 1){
+            this.$http.post(url, this.comment, function (data) {
+                if (data.status == 1) {
                     $.scojs_message('评论成功', $.scojs_message.TYPE_OK);
                     this.getComment();
                     this.clearComment();
-                }else if(data.status == 3){
-                    window.open(data.body.url);
-                }else {
+                    this.submit = false;
+                } else if (data.status == 3) {
+                    window.location = data.body.url;
+                } else {
                     $.scojs_message(data.msg, $.scojs_message.TYPE_ERROR);
+                    this.submit = false;
+                    this.clearComment();
                 }
             })
         },
-        clearComment: function (){
+        clearComment: function () {
             this.comment.cid = 0;
             this.comment.tid = 0;
             this.comment.reply = 0;
@@ -53,11 +61,11 @@ var vm = new Vue({
                         markdown: this.article.content,//+ "\r\n" + $("#append-test").text(),
                         htmlDecode: "style,script,iframe",  // you can filter tags decode
                         tocm: true,    // Using [TOCM]
-                        emoji           : true,
-                        taskList        : true,
-                        tex             : true,  // 默认不解析
-                        flowChart       : true,  // 默认不解析
-                        sequenceDiagram : true  // 默认不解析
+                        emoji: true,
+                        taskList: true,
+                        tex: true,  // 默认不解析
+                        flowChart: true,  // 默认不解析
+                        sequenceDiagram: true  // 默认不解析
 
                     });
                 }
