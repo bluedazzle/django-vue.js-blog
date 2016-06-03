@@ -4,6 +4,7 @@
 
 body {
     min-width: 460px;
+    font-family: "Meiryo UI", "Microsoft YaHei", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, Monaco, monospace, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
 }
 
 @media screen and (max-width: 1080px) {
@@ -94,4 +95,6 @@ h4 {
     padding-bottom: 50px;
 }
 
-[v-cloak] { display: none; }
+[v-cloak] {
+    display: none;
+}
