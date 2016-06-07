@@ -82,10 +82,10 @@ class ArticleListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseM
         setattr(article, 'summary', markdown.markdown(article.content[:400]))
 
     def get_comment_number(self, article):
-        comment_list = Comment.objects.filter(belong=article)
+        comment_list = Comment.objects.filter(belong=article, review=True)
         count = comment_list.count()
         for comment in comment_list:
-            count += comment.comment_replies.all().count()
+            count += comment.comment_replies.all().filter(review=True).count()
         setattr(article, 'comment_number', count)
 
     def get_tag(self, article):
