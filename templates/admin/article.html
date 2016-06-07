@@ -1,0 +1,106 @@
+{% extends "admin/admin_base.html" %}
+{% block content %}
+    <div class="boloContainer" id="vArticle">
+        <div class="ui breadcrumb">
+            <a class="section">文章</a>
+            <i class="right angle icon divider"></i>
+        </div>
+        <div class="ui divider"></div>
+        <table class="ui celled selectable table">
+            <thead>
+            <tr>
+                <th>文章</th>
+                <th>创建时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <div v-show="noData" class="ui active inverted dimmer">
+                <div class="ui text loader">Loading</div>
+            </div>
+            <tr v-for="(index, article) in articles">
+                <td>
+                    <h4 class="ui image header">
+                        <img src="/s/image/avatar.png" class="ui mini rounded image">
+                        <div class="content">${ article.title }}
+                            <div class="sub header">
+                                <span><i class="eye icon"></i>${ article.views }}</span>
+                                <span>&nbsp;</span>
+                                <span><i class="comments icon"></i>${ article.comment_number }}</span>
+                            </div>
+                        </div>
+                    </h4>
+                </td>
+                <td>${ article.create_time }}</td>
+                <td>${ article.publish == true ? '已发布' : '未发布' }}</td>
+                <td>
+                    <a class="ui small blue button" href="/blog/${ article.id }}" target="_blank">详情</a>
+                    <a class="ui small blue button" href="/admin/article/${ article.id }}" target="_blank">修改</a>
+                    <button v-show="article.publish" class="ui small gray labeled icon button"
+                            @click="publishArticle(article.id)"><i
+                            class="icon download"></i>取消发布
+                    </button>
+                    <button v-else="article.publish" class="ui small green labeled icon button"
+                            @click="publishArticle(article.id)"><i
+                            class="icon upload"></i>发布
+                    </button>
+                    <button class="ui small red labeled icon button" onclick="deleteArticle()"><i
+                            class="icon delete"></i>删除
+                    </button>
+                    <div class="ui basic modal" id="delModal${ article.id }}">
+                        <i class="close icon"></i>
+                        <div class="header">
+                            删除文章 ${ article.title }}
+                        </div>
+                        <div class="image content">
+                            <div class="image">
+                                <i class="remove user icon"></i>
+                            </div>
+                            <div class="description">
+                                <p>情确认,您要删除资讯 ${ aricle.title }} 吗?</p>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <div class="two fluid ui inverted buttons">
+                                <div class="ui red basic cancel inverted button">
+                                    <i class="remove icon"></i>
+                                    不不,点错了
+                                </div>
+                                <div class="ui green basic approve inverted button">
+                                    <i class="checkmark icon"></i>
+                                    废话
+                                </div>
+                            </div>
+                        </div>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="5">
+                    <a class="ui left floated small green labeled icon button" href="/admin/article/new"><i
+                            class="newspaper icon"></i> 添加文章
+                    </a>
+                    <div class="ui right floated pagination menu">
+                        <a class="icon item" :class="{'disabled': pageObj.previous == undefined}"
+                           @click="getData(pageObj.previous)">
+                            <i class="left chevron icon"></i>
+                        </a>
+                        <a class="item" v-for="page in pageObj.page_range"
+                           :class="{'active': page.page == pageObj.current}" @click="getData(page.page)">${
+                            page.page }}
+                            <a class="icon item" :class="{'disabled': pageObj.next == undefined}"
+                               @click="getData(pageObj.next)">
+                                <i class="right chevron icon"></i>
+                            </a>
+                    </div>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="/s/js/src/admin_article.js"></script>
+{% endblock %}

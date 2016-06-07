@@ -1,0 +1,43 @@
+{% extends "blog/base.html" %}
+{% block title %}博客列表 | RaPoSpectre的个人博客{% endblock %}
+{% block content %}
+    <div id="vList" v-cloak>
+        <div v-show="noData" class="" style="margin-top: 100px;">
+            <div class="ui active centered large inline loader"></div>
+        </div>
+        <div v-else="noData" class="row">
+            <div class="">
+                <div class="card" v-for="article in articles">
+                    <a class="card-content white-text waves-effect red-card" href="/blog/${ article.id }}">
+                        <h1 class="">${ article.title }}</h1>
+                        <div v-html="article.summary"></div>
+                    </a>
+                    <div class="card-action row">
+                        <div class="col s6 left-align">
+                            <a @click="setCid(article.classification.id)" class="ui label waves-effect" style="background-color: #ee6e73; color: white;">${
+                                article.classification.title }}</a>
+                            <a v-for="tag in article.tag_list" class="chip tags waves-effect" style="cursor: pointer;"  @click="setTag(tag.id)">${ tag.title }}</a></div>
+
+                        <div class="col s6 right-align">
+                            <span><i class="ui eye icon list-icon"></i>${ article.views }}</span>
+                            <span><i class="ui comment icon list-icon"></i>${ article.comment_number }}</span>
+                            <span><i class="ui time icon list-icon"></i>${ article.create_time }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul v-show="is_paginated" class="pagination">
+            <li class="waves-effect" :class="{'disabled': pageObj.previous == undefined}"
+                @click="getData(pageObj.previous)"><a><i class="angle left icon"></i></a></li>
+            <li class="waves-effect active" v-for="page in pageObj.page_range"
+                :class="{'active': page.page == pageObj.current}" @click="getData(page.page)"><a>${ page.page
+                }}</a></li>
+            <li class="waves-effect" :class="{'disabled': pageObj.next == undefined}"
+                @click="getData(pageObj.next)"><a><i class="angle right icon"></i></a></li>
+        </ul>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="/s/js/src/list.js"></script>
+{% endblock %}

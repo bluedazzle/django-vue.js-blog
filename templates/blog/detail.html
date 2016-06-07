@@ -1,0 +1,122 @@
+{% extends "blog/base.html" %}
+{% block title %}{{ article.title }} | RaPoSpectre的个人博客{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="/s/css/sco.message.css">
+    <link rel="stylesheet" href="/s/css/editormd.min.css">
+{% endblock %}
+{% block content %}
+    <div id="vArticle" v-cloak>
+        <div v-show="noData" class="preloader-item">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-else="noData">
+            <input type="hidden" v-model="aid" value="{{ article.id }}">
+            <h1 class="center-align" style="margin-top: 10px;">${ article.title }}</h1>
+            <div class="row">
+                <div class="col s6 left-align"><a class="ui label white-text waves-effect"
+                                                  style="background-color: #ee6e73;">${ article.classification.title
+                    }}</a>
+                    <a class="ui white-text label waves-effect" v-for="tag in article.tag_list">${ tag.title }}</a>
+                </div>
+                <div class="col s6 right-align">${ article.create_time }}</div>
+            </div>
+            <div class="divider"></div>
+            <div id="article" style="background-color: #F9F9F5; overflow: hidden;">
+
+            </div>
+            <div class="comment">
+                <div class="ui comments " style="max-width: 1600px;">
+                    <h3 class="ui dividing header">评论</h3>
+                    <div class="comment" v-for="comment in comments">
+                        <a class="avatar">
+                            <img src="${ comment.author.avatar }}">
+                        </a>
+                        <div class="content">
+                            <a class="author">${ comment.author.nick }}</a>
+                            <div class="metadata">
+                                <span class="date">${ comment.create_time }}</span>
+                            </div>
+                            <div class="text">${ comment.content }}</div>
+                            <div class="actions">
+                                <a class="reply" href="#comment"
+                                   @click="replyMethod(comment.id, comment.author.id, comment.author.nick)">回复</a>
+                            </div>
+                        </div>
+                        <div class="comments" v-for="reply in comment.replies">
+                            <div class="comment">
+                                <a class="avatar">
+                                    <img src="${ reply.create_by.avatar }}">
+                                </a>
+                                <div class="content">
+                                    <a class="author">${ reply.create_by.nick }}</a>@<a class="author">${
+                                    reply.reply.nick
+                                    }}</a>:
+                                    <div class="metadata">
+                                        <span class="date">${ reply.create_time }}</span>
+                                    </div>
+                                    <div class="text">${ reply.content }}</div>
+                                    <div class="actions">
+                                        <a class="reply" href="#comment"
+                                           @click="replyMethod(comment.id, reply.create_by.id, reply.create_by.nick)">回复</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="progress" v-show="submit">
+                                <div class="indeterminate"></div>
+                            </div>
+                            <div class="row" style="margin-top: 20px;">
+                                <div class="col s1">
+                                    <a class="comment avatar">
+                                        <img src="${ avatar }}" width="35px" class="ui small rounded image">
+                                    </a>
+                                </div>
+                                <div class="input-field col s10">
+                                    <textarea id="comment" class="materialize-textarea"
+                                              v-model="comment.content"></textarea>
+                                    <label for="comment">${ title }}</label>
+                                </div>
+                                <div class="col s1">
+                                    <button class="btn waves-effect waves-light" :class="{'disabled': submit }"
+                                            @click="createComment"
+                                            style="margin-top: 65px; background-color: #ee6e73;">
+                                        <i class="github icon" style="font-size: 1.5em;"></i>
+                                        ${ submit ? '评论中' : '评论' }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="/s/lib/prettify.min.js"></script>
+    <script src="/s/lib/raphael.min.js"></script>
+    <script src="/s/lib/underscore.min.js"></script>
+    <script src="/s/lib/sequence-diagram.min.js"></script>
+    <script src="/s/lib/flowchart.min.js"></script>
+    <script src="/s/lib/jquery.flowchart.min.js"></script>
+    <script src="/s/lib/marked.min.js"></script>
+    <script src="/s/js/editormd.js"></script>
+    <script src="/s/js/sco.message.js"></script>
+    <script src="/s/js/src/article.js"></script>
+{% endblock %}
