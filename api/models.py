@@ -40,6 +40,7 @@ class Comment(BaseModel):
     author = models.ForeignKey(Guest, related_name='user_comments', null=True, blank=True, on_delete=models.SET_NULL)
     belong = models.ForeignKey(Article, related_name='art_comments')
     state = models.CharField(max_length=64, null=True, blank=True)
+    review = models.BooleanField(default=False)
 
     def __unicode__(self):
         return '{0}-{1}'.format(self.author, self.create_time.strftime("%Y-%m-%d %H:%M:%S"))
@@ -52,6 +53,7 @@ class CommentReply(BaseModel):
                                on_delete=models.SET_NULL)
     to = models.ForeignKey(Guest, related_name='user_replied', null=True, blank=True, on_delete=models.SET_NULL)
     state = models.CharField(max_length=64, null=True, blank=True)
+    review = models.BooleanField(default=False)
 
     def __unicode__(self):
         return '{0}->{1}'.format(self.author, self.to)

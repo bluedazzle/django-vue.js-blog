@@ -102,12 +102,12 @@ class CommentListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseM
     def get_queryset(self):
         queryset = super(CommentListView, self).get_queryset()
         article = Article.objects.get(id=self.kwargs.get('aid'))
-        queryset = queryset.filter(belong=article).order_by("-create_time")
+        queryset = queryset.filter(belong=article, review=True).order_by("-create_time")
         map(self.get_reply, queryset)
         return queryset
 
     def get_reply(self, comment):
-        reply_list = CommentReply.objects.filter(comment=comment)
+        reply_list = CommentReply.objects.filter(comment=comment, review=True)
         if reply_list.exists():
             for reply in reply_list:
                 setattr(reply, 'reply', serializer(reply.to, include_attr=['nick', 'id', 'avatar']))
@@ -161,6 +161,7 @@ class CommentView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonRequ
             return self.render_to_response({'url': url})
         else:
             comment.author = self.user
+            comment.review = True
             comment.save()
             send_mail('新评论', '你有一条新评论, 请登陆查看', 'bluedazzle@163.com', ['rapospectre@gmail.com'], fail_silently=True)
             if isinstance(comment, CommentReply):
@@ -207,6 +208,7 @@ class LoginCallbackView(TemplateView):
             if comment.exists():
                 comment = comment[0]
                 comment.author = guest
+                comment.review = True
                 comment.save()
                 if aid == 0:
                     aid = comment.comment.belong.id
