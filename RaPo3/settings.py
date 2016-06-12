@@ -61,6 +61,10 @@ MIDDLEWARE_CLASSES = (
 
 SEO_JS_PRERENDER_TOKEN = ""
 
+SEO_JS_USER_AGENTS = [
+    "Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)",
+]
+
 ROOT_URLCONF = 'RaPo3.urls'
 
 WSGI_APPLICATION = 'RaPo3.wsgi.application'
