@@ -7,10 +7,6 @@ import datetime
 import time
 import json
 
-url_list = ['ad', 'malltask/dailySign',
-            'malltask/shareTask', 'my/concernOrCancel',
-            'activity/match/publishBattle']
-
 
 def get_wy_coin(path):
     url = 'http://api.wangyuhudong.com/{0}'.format(path)
@@ -40,6 +36,9 @@ def get_wy_coin(path):
 
 
 def wy_request():
+    url_list = ['ad', 'malltask/dailySign',
+                'malltask/shareTask', 'my/concernOrCancel',
+                'activity/match/publishBattle']
     flag = True
     for url in url_list:
         if not get_wy_coin(url):
@@ -47,3 +46,4 @@ def wy_request():
     if not flag:
         time.sleep(1)
         get_wy_coin('activity/match/publishBattle')
+
