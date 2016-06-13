@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
-    'django_seo_js',
+    # 'django_seo_js',
     'api',
     'myadmin',
     'myguest',
@@ -59,11 +59,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-SEO_JS_PRERENDER_TOKEN = ""
-
-SEO_JS_USER_AGENTS = [
-    "Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)",
-]
+# SEO_JS_PRERENDER_TOKEN = ""
+#
+# SEO_JS_USER_AGENTS = [
+#     "Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)",
+# ]
 
 ROOT_URLCONF = 'RaPo3.urls'
 
