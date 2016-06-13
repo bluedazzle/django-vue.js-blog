@@ -8,7 +8,7 @@
         <div v-else="noData" class="row">
             <div class="">
                 <div class="card" v-for="article in articles">
-                    <a class="card-content white-text waves-effect red-card" href="/blog/${ article.id }}">
+                    <a class="card-content white-text waves-effect red-card" href="{{ host }}/blog/${ article.id }}">
                         <h1 class="">${ article.title }}</h1>
                         <div v-html="article.summary"></div>
                     </a>

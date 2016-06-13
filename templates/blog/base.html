@@ -1,4 +1,3 @@
-{% load django_seo_js %}
 <!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
 <html lang="zh-CN">
 <head>
@@ -7,7 +6,6 @@
     <meta name="keywords" content="个人博客,rapospectre,个人博客模板,rapo,个人网站模版,django,python,网站建设">
     <meta name="description" content="rapospectre的个人网站，web知识与探索，django与python技术资料，网页模版下载，个人网站建设"/>
     <link href="/img/header.png" rel="shortcut icon"/>
-    {% seo_js_head %}
     {#    <meta name="viewport" content="width=device-width, initial-scale=1">#}
     <link rel="stylesheet" href="/s/css/materialize.css">
     <link rel="stylesheet" href="/s/css/semantic.min.css">
@@ -37,7 +35,7 @@
         <div class="collection with-header">
             <div class="collection-header " style="background-color: #ee6e73;color: white;"><h4
                     style="margin-top: 1em; margin-bottom: 0.5em;">最近</h4></div>
-            <a class=" collection-item waves-effect" href="/blog/${ blog.id }}" v-for="blog in latest">
+            <a class=" collection-item waves-effect" href="{{ host }}/blog/${ blog.id }}" v-for="blog in latest">
                 <div class="content"><h5 style="font-size: 1.2em;"><i class="ui browser icon"></i>${ blog.title }}</h5>
                     <div class="sub header"><i class="ui time icon"></i>${ blog.create_time }}</div>
                 </div>
@@ -46,7 +44,7 @@
         <div class="collection with-header">
             <div class="collection-header light-red " style="background-color: #ee6e73;color: white;"><h4
                     style="margin-top: 1em; margin-bottom: 0.5em;">最热</h4></div>
-            <a class=" collection-item waves-effect" href="/blog/${ blog.id }}" v-for="blog in popular">
+            <a class=" collection-item waves-effect" href="{{ host }}/blog/${ blog.id }}" v-for="blog in popular">
                 <div class="content"><h5 style="font-size: 1.2em;"><i class="ui fire icon"></i>${ blog.title }}</h5>
                     <div class="sub header"><i class="ui eye icon"></i>${ blog.views }}</div>
                 </div>

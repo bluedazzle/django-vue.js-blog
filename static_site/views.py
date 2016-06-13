@@ -5,6 +5,7 @@ from django.shortcuts import render, render_to_response, HttpResponseRedirect
 # Create your views here.
 from django.views.generic import TemplateView, DetailView
 
+from RaPo3.settings import HOST
 from api.models import Article
 from core.Mixin.CheckMixin import CheckAdminPagePermissionMixin, CheckAdminPermissionMixin
 
@@ -15,20 +16,40 @@ class BlogView(DetailView):
     pk_url_kwarg = 'aid'
     model = Article
 
+    def get_context_data(self, **kwargs):
+        kwargs = super(BlogView, self).get_context_data(**kwargs)
+        kwargs['host'] = HOST
+        return kwargs
+
 
 class BlogListView(TemplateView):
     http_method_names = ['get']
     template_name = 'blog/list.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs = super(BlogListView, self).get_context_data(**kwargs)
+        kwargs['host'] = HOST
+        return kwargs
 
 
 class IndexView(TemplateView):
     http_method_names = ['get']
     template_name = 'blog/index.html'
 
+    def get_context_data(self, **kwargs):
+        kwargs = super(IndexView, self).get_context_data(**kwargs)
+        kwargs['host'] = HOST
+        return kwargs
+
 
 class AboutView(TemplateView):
     http_method_names = ['get']
     template_name = 'blog/about.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs = super(AboutView, self).get_context_data(**kwargs)
+        kwargs['host'] = HOST
+        return kwargs
 
 
 class AdminLoginView(CheckAdminPermissionMixin, TemplateView):
