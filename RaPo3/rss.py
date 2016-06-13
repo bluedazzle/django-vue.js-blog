@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Rss201rev2Feed
+import markdown
 
 from api.models import Article
 
@@ -36,7 +37,7 @@ class ArticleFeed(Feed):
         return item.title
 
     def item_description(self, item):
-        return item.title
+        return markdown.markdown(item.content)
 
     def item_link(self, item):
         return '/blog/{0}'.format(item.id)

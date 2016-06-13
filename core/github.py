@@ -41,6 +41,3 @@ def get_user_info(access_token):
     nick = json_data.get('name')
     avatar = json_data.get('avatar_url')
     return email, nick, avatar
-
-
-print get_access_token('524ee26f3c5b9d128f3c', '271KN9dTx8byojJrspiHhCfPg0uAOjIS')
