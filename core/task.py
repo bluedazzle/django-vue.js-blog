@@ -47,3 +47,5 @@ def wy_request():
         time.sleep(1)
         get_wy_coin('activity/match/publishBattle')
 
+
+

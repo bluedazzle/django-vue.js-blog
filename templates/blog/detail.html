@@ -41,7 +41,7 @@
                     <h3 class="ui dividing header">评论</h3>
                     <div class="comment" v-for="comment in comments">
                         <a class="avatar">
-                            <img src="${ comment.author.avatar }}">
+                            <img src="${ comment.author.avatar }}" style="height: 2.4em;">
                         </a>
                         <div class="content">
                             <a class="author">${ comment.author.nick }}</a>
@@ -57,7 +57,7 @@
                         <div class="comments" v-for="reply in comment.replies">
                             <div class="comment">
                                 <a class="avatar">
-                                    <img src="${ reply.create_by.avatar }}">
+                                    <img src="${ reply.create_by.avatar }}" style="height: 2.4em;">
                                 </a>
                                 <div class="content">
                                     <a class="author">${ reply.create_by.nick }}</a>@<a class="author">${

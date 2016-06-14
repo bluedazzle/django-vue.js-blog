@@ -26,7 +26,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-HOST = 'http://www.rapospectre.com'
+HOST = 'http://localhost:8000'
 
 
 # Application definition

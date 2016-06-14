@@ -1,17 +1,16 @@
-# coding:utf-8
+# coding: utf-8
+
 from __future__ import unicode_literals
-from __future__ import absolute_import
 
 import datetime
-import copy
 import json
 
 import xmltodict
-from django.db.models.fields.files import ImageFieldFile
+from decimal import Decimal
+from django.db.models.fields.files import ImageFieldFile, FileField
 
 from .TimeFormatFactory import TimeFormatFactory
 from .Warning import remove_check
-
 
 try:
     from django.db import models
@@ -23,123 +22,94 @@ except ImportError:
     raise RuntimeError('django is required in django simple serializer')
 
 
-def _include_check(include_attr, attr_dict):
-    if not isinstance(attr_dict, dict):
-        return attr_dict
-    for itm in attr_dict.itervalues():
-        if isinstance(itm, dict):
-            _include_check(include_attr, itm)
-        elif isinstance(itm, list):
-            for sitm in itm:
-                _include_check(include_attr, sitm)
-    if include_attr:
-        ex_attr_dict = copy.deepcopy(attr_dict)
-        attr_dict.clear()
-        for attr in include_attr:
-            if attr in ex_attr_dict:
-                attr_dict[attr] = ex_attr_dict.get(attr, None)
-    return attr_dict
+class Serializer(object):
+    include_attr = []
+    exclude_attr = []
+    objects = []
+    origin_data = None
+    output_type = 'raw'
+    datetime_format = 'timestamp'
+    foreign = False
+    many = False
 
+    def __init__(self, data, datetime_format='timestamp', output_type='raw', include_attr=None, exclude_attr=None,
+                 foreign=False, many=False, *args, **kwargs):
+        if include_attr:
+            self.include_attr = include_attr
+        if exclude_attr:
+            self.exclude_attr = exclude_attr
+        self.origin_data = data
+        self.output_type = output_type
+        self.foreign = foreign
+        self.many = many
+        self.datetime_format = datetime_format
+        self.time_func = TimeFormatFactory.get_time_func(datetime_format)
 
-def _exclude_check(exclude_attr, attr_dict):
-    if not isinstance(attr_dict, dict):
-        return attr_dict
-    for itm in attr_dict.itervalues():
-        if isinstance(itm, dict):
-            _exclude_check(exclude_attr, itm)
-        elif isinstance(itm, list):
-            for sitm in itm:
-                _exclude_check(exclude_attr, sitm)
-    if exclude_attr:
-        for attr in exclude_attr:
-            if attr in attr_dict:
-                attr_dict.pop(attr)
-    return attr_dict
+    def check_attr(self, attr):
+        if self.exclude_attr and attr in self.exclude_attr:
+            return False
+        if self.include_attr and attr not in self.include_attr:
+            return False
+        return True
 
-
-def _get_attr(model_data, time_func, foreign, many):
-    dic_list = model_data.__dict__
-    attr_list = model_data._meta.get_all_field_names()
-    for itm in attr_list:
-        if not hasattr(model_data, itm):
-            break
-        attribute = getattr(model_data, itm)
-        if isinstance(attribute, models.Model):
-            if foreign:
-                dic_list[itm] = _get_attr(attribute, time_func, foreign, many)
-        elif isinstance(attribute, manager.Manager):
-            if many and not str(itm).endswith('_art'):
-                many_obj = attribute.all()
-                many_list = []
-                for mitm in many_obj:
-                    many_item = _get_attr(mitm, time_func, foreign, many)
-                    many_list.append(many_item)
-                dic_list[itm] = many_list
-        elif isinstance(attribute, (datetime.datetime, datetime.date, datetime.time)):
-            dic_list[itm] = time_func(getattr(model_data, itm))
-        elif isinstance(attribute, ImageFieldFile):
-            dic_list[itm] = attribute.name
-        elif isinstance(attribute, (list, QuerySet)):
-            i_list = []
-            for i in attribute:
-                i_list.append(_get_attr(i, time_func, foreign, many))
-            dic_list[itm] = i_list
+    def data_inspect(self, data):
+        if isinstance(data, (QuerySet, Page, list)):
+            convert_data = []
+            for obj in data:
+                convert_data.append(self.data_inspect(obj))
+            return convert_data
+        elif isinstance(data, models.Model):
+            obj_dict = {}
+            concrete_model = data._meta.concrete_model
+            for field in concrete_model._meta.local_fields:
+                if field.rel is None:
+                    if self.check_attr(field.name) and hasattr(data, field.name):
+                        obj_dict[field.name] = self.data_inspect(getattr(data, field.name))
+                else:
+                    if self.check_attr(field.name) and self.foreign:
+                        obj_dict[field.name] = self.data_inspect(getattr(data, field.name))
+            for field in concrete_model._meta.many_to_many:
+                if self.check_attr(field.name) and self.many:
+                    obj_dict[field.name] = self.data_inspect(getattr(data, field.name))
+            for k, v in data.__dict__.iteritems():
+                if not unicode(k).startswith('_') and k not in obj_dict.keys():
+                    obj_dict[k] = self.data_inspect(v)
+            return obj_dict
+        elif isinstance(data, manager.Manager):
+            return self.data_inspect(data.all())
+        elif isinstance(data, (datetime.datetime, datetime.date, datetime.time)):
+            return self.time_func(data)
+        elif isinstance(data, (ImageFieldFile, FileField)):
+            return data.name
+        elif isinstance(data, Decimal):
+            return float(data)
+        elif isinstance(data, dict):
+            obj_dict = {}
+            for k, v in data.iteritems():
+                if self.check_attr(k):
+                    obj_dict[k] = self.data_inspect(v)
+            return obj_dict
+        elif isinstance(data, (unicode, str, bool, float, int, long)):
+            return data
         else:
-            dic_list[itm] = getattr(model_data, itm)
-    return_dict = {}
-    for k, v in dic_list.iteritems():
-        if not (unicode(k).startswith('_') and unicode(k).endswith('_cache')) and not (unicode(k) == '_state'):
-            if isinstance(v, (list, QuerySet)):
-                i_list = []
-                for i in v:
-                    i_list.append(_get_attr(i, time_func, False, False))
-                return_dict[k] = i_list
-            else:
-                return_dict[k] = v
-    return return_dict
+            return None
 
+    def data_format(self):
+        self.objects = self.data_inspect(self.origin_data)
 
-def _data_convert(data, time_func, foreign, many, include_attr, exclude_attr):
-    if isinstance(data, models.Model):
-        attr_list = _get_attr(data, time_func, foreign, many)
-        _include_check(include_attr, attr_list)
-        _exclude_check(exclude_attr, attr_list)
-        return attr_list
-    elif isinstance(data, QuerySet):
-        result = []
-        for itm in data:
-            attr_list = _get_attr(itm, time_func, foreign, many)
-            _include_check(include_attr, attr_list)
-            _exclude_check(exclude_attr, attr_list)
-            result.append(copy.copy(attr_list))
-        return result
-    elif isinstance(data, (datetime.datetime, datetime.date)):
-        return time_func(data)
-    elif isinstance(data, (unicode, str, bool, float, int)):
-        return data
-    elif isinstance(data, dict):
-        for k, v in data.iteritems():
-            data[k] = _data_convert(v, time_func, foreign, many, include_attr, exclude_attr)
-        return data
-    elif isinstance(data, list):
-        for i, itm in enumerate(data):
-            data[i] = _data_convert(itm, time_func, foreign, many, include_attr, exclude_attr)
-        return data
-    else:
-        return None
+    def get_values(self):
+        output_switch = {'dict': self.objects,
+                         'raw': self.objects,
+                         'json': json.dumps(self.objects, indent=4)}
+        return output_switch.get(self.output_type, self.objects)
 
-
-def _output_convert(output_type, data):
-    output_switch = {'dict': data,
-                     'raw': data,
-                     'json': json.dumps(data, indent=4),
-                     'xml': xmltodict.unparse({'root': data})}
-    return output_switch.get(output_type, None)
+    def __call__(self, *args, **kwargs):
+        self.data_format()
+        return self.get_values()
 
 
 def serializer(data, datetime_format='timestamp', output_type='raw', include_attr=None, exclude_attr=None,
-               foreign=False, many=False, **kwargs):
-    foreign = remove_check(**kwargs) or foreign
-    time_func = TimeFormatFactory.get_time_func(datetime_format)
-    result = _data_convert(data, time_func, foreign, many, include_attr, exclude_attr)
-    return _output_convert(output_type, result)
+               foreign=False, many=False, *args, **kwargs):
+    s = Serializer(data, datetime_format, output_type, include_attr, exclude_attr,
+                   foreign, many, *args, **kwargs)
+    return s()
