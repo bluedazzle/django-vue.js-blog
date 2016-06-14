@@ -21,7 +21,7 @@ class ExtendedRSSFeed(Rss201rev2Feed):
 
     def add_item_elements(self, handler, item):
         super(ExtendedRSSFeed, self).add_item_elements(handler, item)
-        handler.addQuickElement(u'content:encoded', 'utf-8')
+        handler.addQuickElement(u'content:encoded', markdown.markdown(item['description']))
 
 
 class ArticleFeed(Feed):

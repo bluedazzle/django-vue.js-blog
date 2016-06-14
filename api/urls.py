@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 from api.views import ArticleDetailView, CommentView, LoginCallbackView, CommentListView, UserInfoView, ArticleListView, \
-    ClassificationView, TagView, UploadView, TestView
+    ClassificationView, TagView, UploadView
 
 urlpatterns = patterns('',
                        url(r'^articles', ArticleListView.as_view()),
