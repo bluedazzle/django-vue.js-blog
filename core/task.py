@@ -35,7 +35,7 @@ def get_wy_coin(path):
     return False
 
 
-def wy_request():
+def wy_request(*args, **kwargs):
     url_list = ['ad', 'malltask/dailySign',
                 'malltask/shareTask', 'my/concernOrCancel',
                 'activity/match/publishBattle']
@@ -46,6 +46,5 @@ def wy_request():
     if not flag:
         time.sleep(1)
         get_wy_coin('activity/match/publishBattle')
-
 
 

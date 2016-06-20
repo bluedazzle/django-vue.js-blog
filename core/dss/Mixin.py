@@ -9,6 +9,7 @@ from django.core.paginator import EmptyPage
 from .Serializer import serializer
 from .TimeFormatFactory import TimeFormatFactory
 
+
 try:
     from django.http import HttpResponse
 except ImportError:
@@ -27,9 +28,6 @@ class JsonResponseMixin(object):
         return time_func(time_obj)
 
     def context_serialize(self, context):
-        if hasattr(context, 'get'):
-            if context.get('object', None):
-                context.pop('object')
         return serializer(data=context,
                           datetime_format=self.datetime_type,
                           output_type='raw',
@@ -37,8 +35,8 @@ class JsonResponseMixin(object):
                           many=self.many,
                           include_attr=self.include_attr,
                           exclude_attr=self.exclude_attr)
-
-    def json_serializer(self, context):
+    @staticmethod
+    def json_serializer(context):
         return json.dumps(context, indent=4)
 
     def render_to_response(self, context, **response_kwargs):
@@ -62,9 +60,6 @@ class FormJsonResponseMixin(JsonResponseMixin):
 
 class MultipleJsonResponseMixin(JsonResponseMixin):
     def context_serialize(self, context):
-        if hasattr(context, 'get'):
-            if context.get('object_list', None):
-                context.pop('object_list')
         page_dict = {}
         is_paginated = context.get('is_paginated', None)
         if is_paginated:

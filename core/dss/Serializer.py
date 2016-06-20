@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 import datetime
 import json
 
-import xmltodict
 from decimal import Decimal
 from django.db.models.fields.files import ImageFieldFile, FileField
 
@@ -78,6 +77,10 @@ class Serializer(object):
         elif isinstance(data, manager.Manager):
             return self.data_inspect(data.all())
         elif isinstance(data, (datetime.datetime, datetime.date, datetime.time)):
+            if isinstance(data, datetime.date):
+                return self.time_func(data, time_format='%Y-%m-%d')
+            elif isinstance(data, datetime.time):
+                return self.time_func(data, time_format='%H:%M:%S')
             return self.time_func(data)
         elif isinstance(data, (ImageFieldFile, FileField)):
             return data.name
@@ -103,7 +106,7 @@ class Serializer(object):
                          'json': json.dumps(self.objects, indent=4)}
         return output_switch.get(self.output_type, self.objects)
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self):
         self.data_format()
         return self.get_values()
 
