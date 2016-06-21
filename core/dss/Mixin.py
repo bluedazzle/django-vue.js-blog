@@ -27,7 +27,9 @@ class JsonResponseMixin(object):
         time_func = TimeFormatFactory.get_time_func(self.datetime_type)
         return time_func(time_obj)
 
-    def context_serialize(self, context):
+    def context_serialize(self, context, *args, **kwargs):
+        if kwargs.get('multi_extend'):
+            self.include_attr.extend(kwargs.get('multi_extend'))
         return serializer(data=context,
                           datetime_format=self.datetime_type,
                           output_type='raw',
@@ -46,20 +48,22 @@ class JsonResponseMixin(object):
 
 
 class FormJsonResponseMixin(JsonResponseMixin):
-    def context_serialize(self, context):
+    def context_serialize(self, context, *args, **kwargs):
         form_list = []
         form = context.get('form', None)
         if form:
             for itm in form.fields:
                 f_dict = {'field': unicode(itm)}
                 form_list.append(f_dict)
-        context_dict = super(FormJsonResponseMixin, self).context_serialize(context)
+        context_dict = super(FormJsonResponseMixin, self).context_serialize(context, *args, **kwargs)
         context_dict['form'] = form_list
         return context_dict
 
 
 class MultipleJsonResponseMixin(JsonResponseMixin):
-    def context_serialize(self, context):
+    def context_serialize(self, context, *args, **kwargs):
+        multi_extend = [i for i in context.keys() if not i.startswith('object') and i.endswith('_list')]
+        kwargs['multi_extend'] = multi_extend
         page_dict = {}
         is_paginated = context.get('is_paginated', None)
         if is_paginated:
@@ -77,6 +81,6 @@ class MultipleJsonResponseMixin(JsonResponseMixin):
             page_dict['previous'] = previous_page
             page_dict['next'] = next_page
             page_dict['page_range'] = [{'page': i} for i in page_obj.paginator.page_range]
-        context_dict = super(MultipleJsonResponseMixin, self).context_serialize(context)
+        context_dict = super(MultipleJsonResponseMixin, self).context_serialize(context, *args, **kwargs)
         context_dict['page_obj'] = page_dict
         return context_dict
