@@ -20,8 +20,8 @@ class JsonResponseMixin(object):
     datetime_type = 'string'
     foreign = False
     many = False
-    include_attr = None
-    exclude_attr = None
+    include_attr = []
+    exclude_attr = []
 
     def time_format(self, time_obj):
         time_func = TimeFormatFactory.get_time_func(self.datetime_type)
