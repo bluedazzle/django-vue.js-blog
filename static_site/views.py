@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 from django.shortcuts import render, render_to_response, HttpResponseRedirect
 
 # Create your views here.
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import TemplateView, DetailView, ListView
+import markdown
 
 from RaPo3.settings import HOST
 from api.models import Article
@@ -19,12 +20,16 @@ class BlogView(DetailView):
     def get_context_data(self, **kwargs):
         kwargs = super(BlogView, self).get_context_data(**kwargs)
         kwargs['host'] = HOST
+        article = kwargs['article']
+        article.content = markdown.markdown(article.content)
+        kwargs['article'] = article
         return kwargs
 
 
-class BlogListView(TemplateView):
+class BlogListView(ListView):
     http_method_names = ['get']
     template_name = 'blog/list.html'
+    model = Article
 
     def get_context_data(self, **kwargs):
         kwargs = super(BlogListView, self).get_context_data(**kwargs)
@@ -32,9 +37,10 @@ class BlogListView(TemplateView):
         return kwargs
 
 
-class IndexView(TemplateView):
+class IndexView(ListView):
     http_method_names = ['get']
     template_name = 'blog/index.html'
+    model = Article
 
     def get_context_data(self, **kwargs):
         kwargs = super(IndexView, self).get_context_data(**kwargs)

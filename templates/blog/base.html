@@ -42,27 +42,6 @@
     </div>
 </nav>
 <div class="row">
-    <div class="col m3" id="vBase" v-cloak>
-        <div class="collection with-header">
-            <div class="collection-header " style="background-color: #ee6e73;color: white;"><h4
-                    style="margin-top: 1em; margin-bottom: 0.5em;">最近</h4></div>
-            <a class=" collection-item waves-effect" href="{{ host }}/blog/${ blog.id }}" v-for="blog in latest">
-                <div class="content"><h5 style="font-size: 1.2em;"><i class="ui browser icon"></i>${ blog.title }}</h5>
-                    <div class="sub header"><i class="ui time icon"></i>${ blog.create_time }}</div>
-                </div>
-            </a>
-        </div>
-        <div class="collection with-header">
-            <div class="collection-header light-red " style="background-color: #ee6e73;color: white;"><h4
-                    style="margin-top: 1em; margin-bottom: 0.5em;">最热</h4></div>
-            <a class=" collection-item waves-effect" href="{{ host }}/blog/${ blog.id }}" v-for="blog in popular">
-                <div class="content"><h5 style="font-size: 1.2em;"><i class="ui fire icon"></i>${ blog.title }}</h5>
-                    <div class="sub header"><i class="ui eye icon"></i>${ blog.views }}</div>
-                </div>
-            </a>
-        </div>
-    </div>
-
     <div id="right-content" class="col s12 m9">
         <div>
             {% block content %}
@@ -86,24 +65,5 @@
 <script src="/s/js/materialize.min.js"></script>
 <script src="/s/js/stickUp.min.js"></script>
 <script src="/s/js/semantic.min.js"></script>
-<script src="/s/js/src/base.js"></script>
-<script type="text/javascript">
-    //initiating jQuery
-    jQuery(function ($) {
-        $(document).ready(function () {
-            //enabling stickUp on the '.navbar-wrapper' class
-            $('#myNav').stickUp();
-        });
-    });
-
-    // Initialize collapse button
-    $(".button-collapse").sideNav();
-    // Initialize collapsible (uncomment the line below if you use the dropdown variation)
-    //$('.collapsible').collapsible();
-
-</script>
-
-{% block js %}
-{% endblock %}
 </body>
 </html>
