@@ -4,4 +4,4 @@
 .DS_Store
 .coverage
 00*_*.py
-fab.py
+fabfile.py
