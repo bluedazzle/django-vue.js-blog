@@ -28,15 +28,23 @@ class JsonResponseMixin(object):
         return time_func(time_obj)
 
     def context_serialize(self, context, *args, **kwargs):
-        if kwargs.get('multi_extend'):
-            self.include_attr.extend(kwargs.get('multi_extend'))
+        try:
+            context.pop('view')
+            context.pop('object')
+        except KeyError:
+            pass
+        except AttributeError:
+            pass
+        # if kwargs.get('multi_extend'):
+        #     self.include_attr.extend(kwargs.get('multi_extend'))
         return serializer(data=context,
                           datetime_format=self.datetime_type,
                           output_type='raw',
                           foreign=self.foreign,
                           many=self.many,
                           include_attr=self.include_attr,
-                          exclude_attr=self.exclude_attr)
+                          exclude_attr=self.exclude_attr,
+                          dict_check=True)
     @staticmethod
     def json_serializer(context):
         return json.dumps(context, indent=4)
@@ -62,8 +70,8 @@ class FormJsonResponseMixin(JsonResponseMixin):
 
 class MultipleJsonResponseMixin(JsonResponseMixin):
     def context_serialize(self, context, *args, **kwargs):
-        multi_extend = [i for i in context.keys() if not i.startswith('object') and i.endswith('_list')]
-        kwargs['multi_extend'] = multi_extend
+        # multi_extend = [i for i in context.keys() if not i.startswith('object') and i.endswith('_list')]
+        # kwargs['multi_extend'] = multi_extend
         page_dict = {}
         is_paginated = context.get('is_paginated', None)
         if is_paginated:
@@ -81,6 +89,13 @@ class MultipleJsonResponseMixin(JsonResponseMixin):
             page_dict['previous'] = previous_page
             page_dict['next'] = next_page
             page_dict['page_range'] = [{'page': i} for i in page_obj.paginator.page_range]
+        try:
+            context.pop('paginator')
+            context.pop('object_list')
+        except KeyError:
+            pass
+        except AttributeError:
+            pass
         context_dict = super(MultipleJsonResponseMixin, self).context_serialize(context, *args, **kwargs)
         context_dict['page_obj'] = page_dict
         return context_dict

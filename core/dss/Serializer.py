@@ -43,6 +43,7 @@ class Serializer(object):
         self.many = many
         self.datetime_format = datetime_format
         self.time_func = TimeFormatFactory.get_time_func(datetime_format)
+        self._dict_check = kwargs.get('dict_check', False)
 
     def check_attr(self, attr):
         if self.exclude_attr and attr in self.exclude_attr:
@@ -88,9 +89,13 @@ class Serializer(object):
             return float(data)
         elif isinstance(data, dict):
             obj_dict = {}
-            for k, v in data.iteritems():
-                if self.check_attr(k):
+            if self._dict_check:
+                for k, v in data.iteritems():
                     obj_dict[k] = self.data_inspect(v)
+            else:
+                for k, v in data.iteritems():
+                    if self.check_attr(k):
+                        obj_dict[k] = self.data_inspect(v)
             return obj_dict
         elif isinstance(data, (unicode, str, bool, float, int, long)):
             return data
