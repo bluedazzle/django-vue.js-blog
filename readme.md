@@ -1,7 +1,7 @@
 #RaPo Site#
 A simple blog site powered by django and vue.js
 
-Demo: [RaPo Site][1]
+Demo: [RaPo][1]
 ---
 
 使用 vue.js, editor.md 和 materialize 重写了博客, 新特点:
