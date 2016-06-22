@@ -18,7 +18,7 @@
                         <div class="col s6 right-align">
                             <span><i class="ui eye icon list-icon"></i>{{ article.views }}</span>
                             <span><i class="ui comment icon list-icon"></i>{{ article.comment_number }}</span>
-                            <span><i class="ui time icon list-icon"></i>{{ article.create_time }}</span>
+                            <span><i class="ui time icon list-icon"></i>{{ article.create_time | date:"Y-m-d H:i:s" }}</span>
                         </div>
                     </div>
                 </div>
