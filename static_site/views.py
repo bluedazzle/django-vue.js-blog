@@ -36,6 +36,15 @@ class BlogListView(ListView):
         kwargs['host'] = HOST
         return kwargs
 
+    def get_queryset(self):
+        queryset = super(BlogListView, self).get_queryset()
+        queryset = queryset.order_by("-create_time")
+        map(self.get_summary, queryset)
+        return queryset
+
+    def get_summary(self, article):
+        setattr(article, 'summary', markdown.markdown(article.content[:400]))
+
 
 class IndexView(ListView):
     http_method_names = ['get']
@@ -46,6 +55,11 @@ class IndexView(ListView):
         kwargs = super(IndexView, self).get_context_data(**kwargs)
         kwargs['host'] = HOST
         return kwargs
+
+    def get_queryset(self):
+        queryset = super(IndexView, self).get_queryset()
+        queryset = queryset.order_by("-create_time")
+        return queryset
 
 
 class AboutView(TemplateView):
