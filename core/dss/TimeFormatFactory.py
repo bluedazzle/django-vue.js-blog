@@ -21,7 +21,7 @@ class TimeFormatFactory(object):
         return datetime_time.strftime(time_format)
 
     @staticmethod
-    def datetime_to_timestamp(datetime_time):
+    def datetime_to_timestamp(datetime_time, time_format=None):
         if datetime_time.tzinfo is None:
             return time.mktime(datetime_time.timetuple())
         datetime_time = datetime_time.astimezone(timezone.get_current_timezone())
