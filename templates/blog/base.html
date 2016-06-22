@@ -18,19 +18,30 @@
 <div id="jumo" class="center-align" style="height: 400px; background-color: #1e88e5;">
     <img src="http://www.rapospectre.com/s/image/mylogo.png" style="margin-top: 50px;" alt="">
 </div>
+<ul id="slide-out" class="side-nav">
+    <li class="waves-effect"><a href="{{ host }}">首页</a></li>
+    <li class="waves-effect"><a href="{{ host }}/blogs">博客</a></li>
+    <li class="waves-effect"><a href="{{ host }}/about">关于</a></li>
+</ul>
+
 <nav id="myNav">
     <div class="nav-wrapper">
         <a href="#" class="brand-logo">RaPo</a>
+        <ul class="left show-on-medium-and-down hide-on-large-only">
+            <li class="waves-effect">
+                <div data-activates="slide-out" class="button-collapse">
+                    <i class="sidebar icon"></i></div>
+            </li>
+        </ul>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li class="waves-effect"><a href="/">首页</a></li>
-            <li class="waves-effect"><a href="/blogs">博客</a></li>
-            <li class="waves-effect"><a href="/about">关于</a></li>
-            <li class="waves-effect"><a href="/rss.xml">RSS</a></li>
+            <li class="waves-effect"><a href="{{ host }}">首页</a></li>
+            <li class="waves-effect"><a href="{{ host }}/blogs">博客</a></li>
+            <li class="waves-effect"><a href="{{ host }}/about">关于</a></li>
+            <li class="waves-effect"><a href="{{ host }}/rss.xml">RSS</a></li>
         </ul>
     </div>
 </nav>
 <div class="row">
-
     <div class="col m3" id="vBase" v-cloak>
         <div class="collection with-header">
             <div class="collection-header " style="background-color: #ee6e73;color: white;"><h4
@@ -84,6 +95,11 @@
             $('#myNav').stickUp();
         });
     });
+
+    // Initialize collapse button
+    $(".button-collapse").sideNav();
+    // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+    //$('.collapsible').collapsible();
 
 </script>
 

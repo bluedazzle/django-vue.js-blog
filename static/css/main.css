@@ -27,6 +27,14 @@ body {
     .tags {
         display: none;
     }
+
+    .mobile-show {
+        display: none;
+    }
+}
+
+#slide-out > li {
+    display: block;
 }
 
 #myNav {
