@@ -6,8 +6,6 @@ import datetime
 import json
 
 from decimal import Decimal
-from django.db.models.fields.files import ImageFieldFile, FileField
-
 from .TimeFormatFactory import TimeFormatFactory
 from .Warning import remove_check
 
@@ -16,6 +14,8 @@ try:
     from django.db.models import manager
     from django.core.paginator import Page
     from django.db.models.query import QuerySet
+    from django.db.models.fields.files import ImageFieldFile, FileField
+
     import django
 except ImportError:
     raise RuntimeError('django is required in django simple serializer')
@@ -78,11 +78,11 @@ class Serializer(object):
         elif isinstance(data, manager.Manager):
             return self.data_inspect(data.all())
         elif isinstance(data, (datetime.datetime, datetime.date, datetime.time)):
-            if isinstance(data, datetime.date):
+            if type(data) is type(datetime.date):
                 return self.time_func(data, time_format='%Y-%m-%d')
-            elif isinstance(data, datetime.time):
+            elif type(data) is type(datetime.time):
                 return self.time_func(data, time_format='%H:%M:%S')
-            return self.time_func(data)
+            return self.time_func(data, time_format='%Y-%m-%d %H:%M:%S')
         elif isinstance(data, (ImageFieldFile, FileField)):
             return data.name
         elif isinstance(data, Decimal):
