@@ -31,7 +31,7 @@ class ArticleFeed(Feed):
     description = "关注 RaPoSpectre 的最新动态"
 
     def items(self):
-        return Article.objects.order_by('-create_time')[:5]
+        return Article.objects.filter(publish=True).order_by('-create_time')[:5]
 
     def item_title(self, item):
         return item.title
