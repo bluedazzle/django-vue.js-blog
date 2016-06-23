@@ -12,7 +12,7 @@ class ArticleSitemap(Sitemap):
     priority = 0.9
 
     def items(self):
-        return Article.objects.all()
+        return Article.objects.all().order_by("-create_time")
 
     def lastmod(self, item):
         return item.create_time
