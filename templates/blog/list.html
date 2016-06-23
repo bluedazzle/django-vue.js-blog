@@ -1,5 +1,9 @@
 {% extends "blog/base.html" %}
 {% block title %}博客列表 | RaPoSpectre的个人博客{% endblock %}
+{% block meta %}
+     <meta name="keywords" content="个人博客,rapospectre,个人博客模板,rapo,个人网站,django,python, tornado, 网站建设">
+     <meta name="description" content="{% for article in article_list %}{{ article.title }},{% endfor %}"/>
+{% endblock %}
 {% block content %}
     <div>
         <div class="row">

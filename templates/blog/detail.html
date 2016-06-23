@@ -1,5 +1,9 @@
 {% extends "blog/base.html" %}
 {% block title %}{{ article.title }} | RaPoSpectre的个人博客{% endblock %}
+{% block meta %}
+     <meta name="keywords" content="个人博客,rapospectre,个人博客模板,django,python,tornado,网站建设">
+    <meta name="description" content="{{ article.title }}"/>
+{% endblock %}
 {% block css %}
     <link rel="stylesheet" href="/s/css/sco.message.css">
     <link rel="stylesheet" href="/s/css/editormd.min.css">
