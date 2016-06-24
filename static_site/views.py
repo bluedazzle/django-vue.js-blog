@@ -32,6 +32,16 @@ class BlogListView(TemplateView):
         return kwargs
 
 
+class KnowledgeListView(TemplateView):
+    http_method_names = ['get']
+    template_name = 'blog/knowledge.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs = super(KnowledgeListView, self).get_context_data(**kwargs)
+        kwargs['host'] = HOST
+        return kwargs
+
+
 class IndexView(TemplateView):
     http_method_names = ['get']
     template_name = 'blog/index.html'

@@ -72,7 +72,7 @@ class Serializer(object):
                 if self.check_attr(field.name) and self.many:
                     obj_dict[field.name] = self.data_inspect(getattr(data, field.name))
             for k, v in data.__dict__.iteritems():
-                if not unicode(k).startswith('_') and k not in obj_dict.keys():
+                if not unicode(k).startswith('_') and k not in obj_dict.keys() and self.check_attr(k):
                     obj_dict[k] = self.data_inspect(v)
             return obj_dict
         elif isinstance(data, manager.Manager):

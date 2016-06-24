@@ -1,0 +1,53 @@
+{% extends "blog/base.html" %}
+{% block title %}姿势 | RaPoSpectre的个人博客{% endblock %}
+{% block content %}
+    <div id="vKnow" v-cloak>
+        <div v-show="noData" class="" style="margin-top: 100px;">
+            <div class="ui active centered large inline loader"></div>
+        </div>
+        <div v-else="noData" class="row">
+            <div class="row" style="margin-top: 50px;margin-left: 12px;margin-right: 22px;">
+                <div class="input-field col s10">
+                    <input id="password" type="text" class="validate" v-model="query">
+                    <label for="password">搜索内容</label>
+                </div>
+                <button class="col s2 waves-effect btn" style="background-color: #ee6e73; margin-top: 20px;" @click="getData(1)">姿势一下</button>
+            </div>
+
+            <ul class="collapsible popout" data-collapsible="accordion">
+                <li v-for="(index, know) in knows">
+                    <div class="collapsible-header waves-effect" @click="showBody(index, know.id)"
+                         style="background-color: #F9F9F5;">
+                        <span class="col s12 m10 l10 align-left" style="font-size: 1.2em;">Q: ${ know.question }}</span>
+                        <span class="col m2 l2 hidden-my right-align"><div class="chip">${ know.create_time }}
+                        </div></span>
+
+                    </div>
+                    <div class="collapsible-body">
+                        <div id="coll${ know.id }}" style="margin: 10px;"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <ul v-show="is_paginated" class="pagination">
+            <li class="waves-effect" :class="{'disabled': pageObj.previous == undefined}"
+                @click="getData(pageObj.previous)"><a><i class="angle left icon"></i></a></li>
+            <li class="waves-effect active" v-for="page in pageObj.page_range"
+                :class="{'active': page.page == pageObj.current}" @click="getData(page.page)"><a>${ page.page
+                }}</a></li>
+            <li class="waves-effect" :class="{'disabled': pageObj.next == undefined}"
+                @click="getData(pageObj.next)"><a><i class="angle right icon"></i></a></li>
+        </ul>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="/s/lib/prettify.min.js"></script>
+    <script src="/s/lib/raphael.min.js"></script>
+    <script src="/s/lib/underscore.min.js"></script>
+    <script src="/s/lib/sequence-diagram.min.js"></script>
+    <script src="/s/lib/flowchart.min.js"></script>
+    <script src="/s/lib/jquery.flowchart.min.js"></script>
+    <script src="/s/lib/marked.min.js"></script>
+    <script src="/s/js/editormd.js"></script>
+    <script src="/s/js/src/know.js"></script>
+{% endblock %}

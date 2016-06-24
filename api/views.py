@@ -9,11 +9,12 @@ import markdown
 import time
 
 from django.core.serializers import serialize
+from django.db.models import Q
 from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
 
 from RaPo3.settings import HOST
-from api.models import Article, Comment, CommentReply, Classification, Tag
+from api.models import Article, Comment, CommentReply, Classification, Tag, Knowledge
 from core.Mixin.CheckMixin import CheckTokenMixin, CheckSecurityMixin
 from core.Mixin.JsonRequestMixin import JsonRequestMixin
 from core.Mixin.StatusWrapMixin import *
@@ -263,3 +264,20 @@ class UploadView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, CreateVie
                            'success': 1,
                            'message': '成功'})
         return HttpResponse(data, content_type='application/json')
+
+
+class KnowListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
+    http_method_names = ['get']
+    model = Knowledge
+    paginate_by = 20
+    many = True
+    exclude_attr = ['modify_time']
+
+    def get_queryset(self):
+        query = self.request.GET.get('query', None)
+        queryset = super(KnowListView, self).get_queryset()
+        queryset = queryset.filter(publish=True)
+        if query:
+            queryset = queryset.filter(Q(question__icontains=query) | Q(answer__icontains=query))
+        queryset = queryset.order_by("-create_time")
+        return queryset

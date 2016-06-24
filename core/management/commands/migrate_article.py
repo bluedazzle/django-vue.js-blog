@@ -36,4 +36,3 @@ class Command(BaseCommand):
                     classification=classifi,
                     views=int(itm.get('read_count'))
                     ).save()
-

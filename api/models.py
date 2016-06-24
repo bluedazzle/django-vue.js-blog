@@ -58,3 +58,20 @@ class CommentReply(BaseModel):
     def __unicode__(self):
         return '{0}->{1}'.format(self.author, self.to)
 
+
+class Env(BaseModel):
+    content = models.CharField(max_length=50, unique=True)
+
+    def __unicode__(self):
+        return self.content
+
+
+class Knowledge(BaseModel):
+    question = models.CharField(max_length=200)
+    answer = models.TextField()
+    publish = models.BooleanField(default=False)
+    env = models.ManyToManyField(Env, related_name='knowledges', null=True, blank=True)
+
+    def __unicode__(self):
+        return self.question
+
