@@ -14,4 +14,8 @@ urlpatterns = patterns('',
                        url(r'^admin/article/new', AdminModifyArticleView.as_view()),
                        url(r'^admin/article/(?P<aid>(\d)+)$', AdminModifyArticleView.as_view()),
                        url(r'^admin/article', AdminArticleListView.as_view()),
+                       url(r'^admin/knowledge/new$', AdminModifyKnowledgeView.as_view()),
+                       url(r'^admin/knowledge/(?P<kid>(\d)+)$', AdminModifyKnowledgeView.as_view()),
+                       url(r'^admin/knowledge', AdminKnowledgeListView.as_view()),
+
                        )

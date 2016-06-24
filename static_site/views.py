@@ -6,7 +6,7 @@ from django.shortcuts import render, render_to_response, HttpResponseRedirect
 from django.views.generic import TemplateView, DetailView
 
 from RaPo3.settings import HOST
-from api.models import Article
+from api.models import Article, Knowledge
 from core.Mixin.CheckMixin import CheckAdminPagePermissionMixin, CheckAdminPermissionMixin
 
 
@@ -82,6 +82,11 @@ class AdminArticleListView(CheckAdminPagePermissionMixin, TemplateView):
     template_name = 'admin/article.html'
 
 
+class AdminKnowledgeListView(CheckAdminPagePermissionMixin, TemplateView):
+    http_method_names = ['get']
+    template_name = 'admin/admin_know.html'
+
+
 class AdminCommentListView(TemplateView):
     http_method_names = ['get']
     template_name = 'admin/comment.html'
@@ -97,6 +102,18 @@ class AdminModifyArticleView(CheckAdminPagePermissionMixin, DetailView):
         if not self.kwargs.get(self.pk_url_kwarg, None):
             return None
         return super(AdminModifyArticleView, self).get_object(queryset)
+
+
+class AdminModifyKnowledgeView(CheckAdminPagePermissionMixin, DetailView):
+    http_method_names = ['get']
+    template_name = 'admin/modify_know.html'
+    model = Knowledge
+    pk_url_kwarg = 'kid'
+
+    def get_object(self, queryset=None):
+        if not self.kwargs.get(self.pk_url_kwarg, None):
+            return None
+        return super(AdminModifyKnowledgeView, self).get_object(queryset)
 
 
 class EmailView(TemplateView):

@@ -275,8 +275,10 @@ class KnowListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixi
 
     def get_queryset(self):
         query = self.request.GET.get('query', None)
+        admin = self.request.GET.get('admin', None)
         queryset = super(KnowListView, self).get_queryset()
-        queryset = queryset.filter(publish=True)
+        if not admin:
+            queryset = queryset.filter(publish=True)
         if query:
             queryset = queryset.filter(Q(question__icontains=query) | Q(answer__icontains=query))
         queryset = queryset.order_by("-create_time")

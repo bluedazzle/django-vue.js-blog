@@ -7,5 +7,6 @@ urlpatterns = patterns('',
                        url(r'^info', AdminInfoView.as_view()),
                        url(r'^article/(?P<aid>(\d)+)/publish', ArticlePublishView.as_view()),
                        url(r'^article', ModifyArticleView.as_view()),
-
+                       url(r'^knowledge/(?P<kid>(\d)+)/publish', KnowledgePublishView.as_view()),
+                       url(r'^knowledge', ModifyKnowledgeView.as_view()),
                        )

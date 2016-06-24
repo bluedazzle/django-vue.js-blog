@@ -9,7 +9,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView
 
-from api.models import Article, Comment, CommentReply, Classification, Tag
+from api.models import Article, Comment, CommentReply, Classification, Tag, Knowledge
 from core.Mixin.CheckMixin import CheckTokenMixin, CheckAdminPermissionMixin, CheckSecurityMixin
 from core.Mixin.JsonRequestMixin import JsonRequestMixin
 from core.Mixin.StatusWrapMixin import *
@@ -87,6 +87,29 @@ class ModifyArticleView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWra
         return self.render_to_response(dict())
 
 
+class ModifyKnowledgeView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonRequestMixin,
+                          JsonResponseMixin, UpdateView):
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        kid = request.POST.get('id')
+        answer = request.POST.get('answer')
+        publish = request.POST.get('publish', False)
+        question = request.POST.get('question')
+        if not unicode(kid).isdigit():
+            aid = 0
+        knowledge = Knowledge.objects.filter(id=kid)
+        if knowledge.exists():
+            knowledge = knowledge[0]
+        else:
+            knowledge = Knowledge()
+            knowledge.publish = publish
+        knowledge.answer = answer
+        knowledge.question = question
+        knowledge.save()
+        return self.render_to_response(dict())
+
+
 class AdminInfoView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
     http_method_names = ['get']
     include_attr = ['nick', 'avatar']
@@ -106,6 +129,18 @@ class ArticlePublishView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, J
 
     def get_object(self, queryset=None):
         obj = super(ArticlePublishView, self).get_object(queryset)
+        obj.publish = not obj.publish
+        obj.save()
+        return self.render_to_response(dict())
+
+
+class KnowledgePublishView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+    http_method_names = ['get']
+    model = Knowledge
+    pk_url_kwarg = 'kid'
+
+    def get_object(self, queryset=None):
+        obj = super(KnowledgePublishView, self).get_object(queryset)
         obj.publish = not obj.publish
         obj.save()
         return self.render_to_response(dict())

@@ -1,0 +1,46 @@
+{% extends "admin/admin_base.html" %}
+{% block css %}
+    <link rel="stylesheet" href="/s/css/editormd.min.css">
+{% endblock %}
+{% block content %}
+    <div class="boloContainer" id="vKnow">
+        <input type="hidden" value="{{ knowledge.id }}" v-model="knowledge.id">
+        <div class="ui breadcrumb">
+            <a class="section" href="/admin/knowledge">姿势</a>
+            <i class="right angle icon divider"></i>
+            <a class="section" href="#">${ knowledge.id == '' ? '新姿势' : knowledge.title}}</a>
+        </div>
+        <div class="ui divider"></div>
+        <div>
+            <div class="ui form">
+                <div class="field">
+                    <label>问题:</label>
+                    <input type="text" name="title" placeholder="文章标题" v-model="know.question">
+                </div>
+                <div class="form-group">
+                    <div id="mdEditor"></div>
+                </div>
+                <div class="field">
+                    <input @click="submitArticle" class="ui green button" value="提交"></input>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="/s/lib/prettify.min.js"></script>
+    <script src="/s/lib/raphael.min.js"></script>
+    <script src="/s/lib/underscore.min.js"></script>
+    <script src="/s/lib/sequence-diagram.min.js"></script>
+    <script src="/s/lib/flowchart.min.js"></script>
+    <script src="/s/lib/jquery.flowchart.min.js"></script>
+    <script src="/s/lib/marked.min.js"></script>
+    <script src="/s/js/editormd.js"></script>
+    <script src="/s/js/sco.message.js"></script>
+    <script src="/s/js/src/modify_know.js"></script>
+    <script>
+        window.onbeforeunload = function (e) {
+            return e.returnValue = '你真的要离开吗？';
+        };
+    </script>
+{% endblock %}
