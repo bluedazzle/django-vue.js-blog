@@ -209,7 +209,7 @@ class LoginCallbackView(TemplateView):
                 comment = CommentReply.objects.filter(state=state)
             else:
                 aid = comment[0].belong.id
-                send_mail('新评论', '你有一条新评论, {0} 登陆查看'.format(comment.content), 'bluedazzle@163.com',
+                send_mail('新评论', '你有一条新评论, 登陆查看 www.rapospectre.com', 'bluedazzle@163.com',
                           ['rapospectre@gmail.com'], fail_silently=True)
             if comment.exists():
                 comment = comment[0]
