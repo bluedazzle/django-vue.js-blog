@@ -21,12 +21,12 @@ var vm = new Vue({
                 this.$http.get(url, function (data) {
                     if (data.status == 1) {
                         var know = data.body.knowledge;
-                        this.know.question = know.content;
+                        this.know.question = know.question;
                         this.know.answer = know.answer;
                         editor = editormd("mdEditor", {
                             height: 740,
                             path: '/s/lib/',
-                            markdown: this.article.content,
+                            markdown: this.know.answer,
                             codeFold: true,
                             //syncScrolling : false,
                             saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea

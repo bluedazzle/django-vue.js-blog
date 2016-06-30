@@ -97,7 +97,7 @@ class ModifyKnowledgeView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusW
         publish = request.POST.get('publish', False)
         question = request.POST.get('question')
         if not unicode(kid).isdigit():
-            aid = 0
+            kid = 0
         knowledge = Knowledge.objects.filter(id=kid)
         if knowledge.exists():
             knowledge = knowledge[0]

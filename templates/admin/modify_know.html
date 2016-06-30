@@ -4,11 +4,11 @@
 {% endblock %}
 {% block content %}
     <div class="boloContainer" id="vKnow">
-        <input type="hidden" value="{{ knowledge.id }}" v-model="knowledge.id">
+        <input type="hidden" value="{{ knowledge.id }}" v-model="know.id">
         <div class="ui breadcrumb">
             <a class="section" href="/admin/knowledge">姿势</a>
             <i class="right angle icon divider"></i>
-            <a class="section" href="#">${ knowledge.id == '' ? '新姿势' : knowledge.title}}</a>
+            <a class="section" href="#">${ know.id == '' ? '新姿势' : know.question}}</a>
         </div>
         <div class="ui divider"></div>
         <div>

@@ -283,3 +283,10 @@ class KnowListView(CheckSecurityMixin, StatusWrapMixin, MultipleJsonResponseMixi
             queryset = queryset.filter(Q(question__icontains=query) | Q(answer__icontains=query))
         queryset = queryset.order_by("-create_time")
         return queryset
+
+
+class KnowDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+    http_method_names = ['get']
+    pk_url_kwarg = 'kid'
+    model = Knowledge
+
