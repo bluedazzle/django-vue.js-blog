@@ -47,6 +47,3 @@ def wy_request(*args, **kwargs):
     if not flag:
         time.sleep(1)
         get_wy_coin('activity/match/publishBattle')
-
-
-wy_request()
