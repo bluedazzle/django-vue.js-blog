@@ -14,7 +14,7 @@ def get_wy_coin(path):
     time_str = time.strftime("%Y-%m-%d %H:%M")
     data = {
         'userId': "4127367",
-        'token': '0e71f8a7021b4a88aa8908dfc900a11a',
+        'token': '36a473d36ba144cab3c5445789948d85',
         'type': 1,
         'concernId': 2544,
         'beginTime': time_str,
@@ -37,6 +37,7 @@ def get_wy_coin(path):
 
 def wy_request(*args, **kwargs):
     url_list = ['ad', 'malltask/dailySign',
+                'malltask/shareTask', 'malltask/shareTask',
                 'malltask/shareTask', 'my/concernOrCancel',
                 'activity/match/publishBattle']
     flag = True
@@ -48,3 +49,4 @@ def wy_request(*args, **kwargs):
         get_wy_coin('activity/match/publishBattle')
 
 
+wy_request()
