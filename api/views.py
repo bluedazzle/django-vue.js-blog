@@ -23,6 +23,7 @@ from core.dss.Mixin import JsonResponseMixin, MultipleJsonResponseMixin, FormJso
 # Create your views here.
 from core.dss.Serializer import serializer
 from core.github import get_github_auth, get_access_token, get_user_info
+from core.qn import generate_upload_token
 from core.utils import save_image, upload_picture, send_html_mail
 from myguest.models import Guest
 
@@ -254,8 +255,12 @@ class TagView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, MultipleJson
     model = Tag
 
 
-class UploadView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, CreateView):
-    http_method_names = ['post']
+class UploadView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonResponseMixin, CreateView):
+    http_method_names = ['get', 'post']
+
+    def get(self, request, *args, **kwargs):
+        token = generate_upload_token()
+        return self.render_to_response({'token': token})
 
     def post(self, request, *args, **kwargs):
         image_file = request.FILES.get('editormd-image-file')
@@ -289,4 +294,3 @@ class KnowDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Det
     http_method_names = ['get']
     pk_url_kwarg = 'kid'
     model = Knowledge
-
