@@ -37,7 +37,7 @@ class ArticleFeed(Feed):
         return item.title
 
     def item_description(self, item):
-        return markdown.markdown(item.content)
+        return markdown.markdown(unicode(item.content).replace(chr(8), ''))
 
     def item_link(self, item):
         return '/blog/{0}'.format(item.id)
