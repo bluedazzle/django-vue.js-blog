@@ -41,10 +41,10 @@ class CheckSecurityMixin(object):
         return False
 
     def wrap_check_sign_result(self):
-        # if not self.check_expire():
-        #     self.message = 'sign 已过期'
-        #     self.status_code = ERROR_PERMISSION_DENIED
-        #     return False
+        if not self.check_expire():
+            self.message = 'sign 已过期'
+            self.status_code = ERROR_PERMISSION_DENIED
+            return False
         self.get_current_secret()
         result = self.check_sign()
         if not result:
