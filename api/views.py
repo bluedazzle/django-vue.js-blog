@@ -260,7 +260,7 @@ class UploadView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonRespo
 
     def get(self, request, *args, **kwargs):
         token = generate_upload_token()
-        return self.render_to_response({'token': token})
+        return HttpResponse(json.dumps({'uptoken': token}), content_type='application/json')
 
     def post(self, request, *args, **kwargs):
         image_file = request.FILES.get('editormd-image-file')

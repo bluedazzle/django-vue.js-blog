@@ -8,5 +8,5 @@ SECRET_KEY = 'jI9eSrJ8C8BlmG8Tc_yS99iughh4WDaCFxjgC-5X'
 
 def generate_upload_token():
     q = Auth(ACCESS_KEY, SECRET_KEY)
-    token = q.upload_token('rapo')
+    token = q.upload_token('blog')
     return token
