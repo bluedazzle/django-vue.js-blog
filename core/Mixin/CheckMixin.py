@@ -15,7 +15,7 @@ from myguest.models import Guest
 
 class CheckSecurityMixin(object):
     secret = None
-    expire = datetime.timedelta(seconds=30)
+    expire = datetime.timedelta(seconds=10)
 
     def get_current_secret(self):
         self.secret = Secret.objects.all()[0].secret
