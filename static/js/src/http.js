@@ -2,7 +2,7 @@
  * Created by RaPoSpectre on 4/20/16.
  */
 
-var HOST_ROOT = 'http://' + window.location.host + '/';
+var HOST_ROOT = 'https://' + window.location.host + '/';
 
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
@@ -258,7 +258,7 @@ function binl2b64(binarray) {
 }
 
 function generateSign(timestamp) {
-    var secret = 'xiBekZRGwotOTs15AnzgaExDi4q9FoWYjlrhl2cvybsjk6dN80uzaPpmUmHQgqVn';
+    var secret = 'LFBSKoYzlspx7lueZvnOQiJmanuhjs163Ef9NWCvkgb5UeItyAbcMi4aqDy28twG';
     var sign = hex_md5(timestamp + secret);
     return sign;
 }

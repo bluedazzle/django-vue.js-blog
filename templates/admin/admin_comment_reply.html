@@ -1,0 +1,61 @@
+{% extends "admin/admin_base.html" %}
+{% block content %}
+    <div class="boloContainer" id="vComment">
+        <div class="ui breadcrumb">
+            <a class="section">评论</a>
+            <i class="right angle icon divider"></i>
+        </div>
+        <div class="ui divider"></div>
+        <table class="ui celled selectable table">
+            <thead>
+            <tr>
+                <th>内容</th>
+                <th>回复</th>
+                <th>评论时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="reply in replies">
+                <td>
+                    <h4 class="ui image header">
+                        <img src="${ reply.author.avatar }}" class="ui mini rounded image">
+                        <div class="content">${ reply.content }}
+                            <div class="sub header">
+                                <span>&nbsp;</span>
+                                {#                                <span><i class="comments icon"></i>${ article.comment_number }}</span>#}
+                            </div>
+                        </div>
+                    </h4>
+                </td>
+                <td>${ reply.author.nick }}@${ reply.to.nick }}</td>
+                <td>${ reply.create_time }}</td>
+                <td>${ reply.review == true ? '已审核' : '未审核' }}</td>
+            </tr>
+            </tbody>
+            <tfbody>
+                <tr>
+                    <th colspan="5">
+                        <div class="ui right floated pagination menu">
+                            <a class="icon item" :class="{'disabled': pageObj.previous == undefined}"
+                               @click="getData(pageObj.previous)">
+                                <i class="left chevron icon"></i>
+                            </a>
+                            <a class="item" v-for="page in pageObj.page_range"
+                               :class="{'active': page.page == pageObj.current}" @click="getData(page.page)">${
+                                page.page }}
+                                <a class="icon item" :class="{'disabled': pageObj.next == undefined}"
+                                   @click="getData(pageObj.next)">
+                                    <i class="right chevron icon"></i>
+                                </a>
+                        </div>
+                    </th>
+                </tr>
+                </tfoot>
+        </table>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="/s/js/src/admin_comment_reply.js"></script>
+{% endblock %}

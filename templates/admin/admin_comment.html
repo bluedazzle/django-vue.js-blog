@@ -1,6 +1,6 @@
 {% extends "admin/admin_base.html" %}
 {% block content %}
-    <div class="boloContainer" id="vKnow">
+    <div class="boloContainer" id="vComment">
         <div class="ui breadcrumb">
             <a class="section">评论</a>
             <i class="right angle icon divider"></i>
@@ -9,7 +9,8 @@
         <table class="ui celled selectable table">
             <thead>
             <tr>
-                <th>姿势</th>
+                <th>内容</th>
+                <th>文章</th>
                 <th>评论时间</th>
                 <th>状态</th>
                 <th>操作</th>
@@ -19,20 +20,21 @@
             <div v-show="noData" class="ui active inverted dimmer">
                 <div class="ui text loader">Loading</div>
             </div>
-            <tr v-for="(index, comment) in comments">
+            <tr v-for="comment in comments">
                 <td>
                     <h4 class="ui image header">
                         <img src="${ comment.author.avatar }}" class="ui mini rounded image">
                         <div class="content">${ comment.content }}
                             <div class="sub header">
                                 <span>&nbsp;</span>
-{#                                <span><i class="comments icon"></i>${ article.comment_number }}</span>#}
+                                {#                                <span><i class="comments icon"></i>${ article.comment_number }}</span>#}
                             </div>
                         </div>
                     </h4>
                 </td>
+                <td>${ comment.belong.title }}</td>
                 <td>${ comment.create_time }}</td>
-                <td>${ comment.review == true ? '已审核' : '未审核' }}</td>
+                <td>${ comment.review == true ? '已审核' : '未审核' }}${ comment.replies[0].content }}</td>
                 <td>
                     <button v-show="know.publish" class="ui small gray labeled icon button"
                             @click="publishArticle(comment.id)"><i
@@ -42,6 +44,7 @@
                             @click="publishArticle(comment.id)"><i
                             class="icon upload"></i>过审
                     </button>
+                    <button class="ui small blue labeled icon button" v-show="comment.reply"><i class="icon list"></i>对话列表</button>
                     <button class="ui small red labeled icon button" onclick="deleteArticle()"><i
                             class="icon delete"></i>删除
                     </button>

@@ -144,3 +144,25 @@ class KnowledgePublishView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin,
         obj.publish = not obj.publish
         obj.save()
         return self.render_to_response(dict())
+
+
+class CommentListView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, MultipleJsonResponseMixin,
+                      ListView):
+    http_method_names = ['get']
+    model = Comment
+    paginate_by = 2
+    foreign = True
+    include_attr = ['review', 'content', 'create_time', 'reply',
+                    'id', 'author', 'avatar', 'nick', 'belong', 'title', 'to']
+
+    def get_queryset(self):
+        queryset = super(CommentListView, self).get_queryset()
+        map(self.get_comment_reply, queryset)
+        return queryset
+
+    def get_comment_reply(self, comment):
+        replies = comment.comment_replies.all()
+        if replies.exists():
+            setattr(comment, 'reply', True)
+        else:
+            setattr(comment, 'reply', False)

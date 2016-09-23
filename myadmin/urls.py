@@ -9,4 +9,8 @@ urlpatterns = patterns('',
                        url(r'^article', ModifyArticleView.as_view()),
                        url(r'^knowledge/(?P<kid>(\d)+)/publish', KnowledgePublishView.as_view()),
                        url(r'^knowledge', ModifyKnowledgeView.as_view()),
+                       url(r'^comments', CommentListView.as_view()),
+                       url(r'^comment/(?P<aid>(\d)+)/review', ModifyKnowledgeView.as_view()),
+                       url(r'^comment/(?P<aid>(\d)+)/delete', ModifyKnowledgeView.as_view()),
+                       url(r'^comment/(?P<aid>(\d)+)/reply', ModifyKnowledgeView.as_view()),
                        )
