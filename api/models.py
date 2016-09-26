@@ -30,6 +30,7 @@ class Article(BaseModel):
     classification = models.ForeignKey(Classification, related_name='cl_arts')
     content = models.TextField()
     publish = models.BooleanField(default=False)
+    slug = models.SlugField(max_length=50, default='')
 
     def __unicode__(self):
         return self.title

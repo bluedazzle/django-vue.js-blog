@@ -61,9 +61,11 @@ class ModifyArticleView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWra
         aid = request.POST.get('id')
         content = request.POST.get('content')
         tags = request.POST.get('tags')
+        slug = request.POST.get('slug', '')
         cid = request.POST.get('classification')
         publish = request.POST.get('publish', False)
         title = request.POST.get('title')
+        slug = unicode(slug).replace(' ', '-').lower()
         if not unicode(aid).isdigit():
             aid = 0
         article = Article.objects.filter(id=aid)
@@ -77,6 +79,7 @@ class ModifyArticleView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWra
         classification = Classification.objects.get(id=cid)
         article.classification = classification
         article.title = title
+        article.slug = slug
         article.save()
         for itm in tags:
             if itm and itm != '':

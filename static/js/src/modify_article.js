@@ -19,6 +19,7 @@ var vm = new Vue({
             id: -1,
             content: '',
             title: '',
+            slug: '',
             classification: -1,
             tags: []
         }
@@ -32,6 +33,7 @@ var vm = new Vue({
                         var blog = data.body.article;
                         this.article.content = blog.content;
                         this.article.title = blog.title;
+                        this.article.slug = blog.slug;
                         this.article.classification = blog.classification_id;
                         var arr = [];
                         for (var i in blog.tag_list) {
