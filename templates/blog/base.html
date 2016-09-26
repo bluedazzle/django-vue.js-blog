@@ -48,7 +48,7 @@
         <div class="collection with-header">
             <div class="collection-header " style="background-color: #ee6e73;color: white;"><h4
                     style="margin-top: 1em; margin-bottom: 0.5em;">最近</h4></div>
-            <a class=" collection-item waves-effect" href="{{ host }}/blog/${ blog.id }}" v-for="blog in latest">
+            <a class=" collection-item waves-effect" href="{{ host }}/blog/${ blog.slug }}" v-for="blog in latest">
                 <div class="content"><h5 style="font-size: 1.2em;"><i class="ui browser icon"></i>${ blog.title }}</h5>
                     <div class="sub header"><i class="ui time icon"></i>${ blog.create_time }}</div>
                 </div>
@@ -57,7 +57,7 @@
         <div class="collection with-header">
             <div class="collection-header light-red " style="background-color: #ee6e73;color: white;"><h4
                     style="margin-top: 1em; margin-bottom: 0.5em;">最热</h4></div>
-            <a class=" collection-item waves-effect" href="{{ host }}/blog/${ blog.id }}" v-for="blog in popular">
+            <a class=" collection-item waves-effect" href="{{ host }}/blog/${ blog.slug }}" v-for="blog in popular">
                 <div class="content"><h5 style="font-size: 1.2em;"><i class="ui fire icon"></i>${ blog.title }}</h5>
                     <div class="sub header"><i class="ui eye icon"></i>${ blog.views }}</div>
                 </div>
