@@ -7,8 +7,8 @@
     <meta name="description" content="rapospectre的个人网站，web知识与探索，django与python技术资料，网页模版下载，个人网站建设"/>
     <link href="/s/image/header.png" rel="shortcut icon"/>
     {#    <meta name="viewport" content="width=device-width, initial-scale=1">#}
-    <link rel="stylesheet" href="/s/css/materialize.css">
-    <link rel="stylesheet" href="/s/css/semantic.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/materialize/0.97.7/css/materialize.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" href="/s/css/main.css">
     {% block css %}
     {% endblock %}
@@ -80,29 +80,12 @@
             <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
         </div>
 </footer>
-<script src="https://cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/vue/1.0.17/vue.min.js"></script>
-<script src="https://cdn.bootcss.com/vue-resource/0.7.0/vue-resource.min.js"></script>
-<script src="/s/js/src/http.js"></script>
-<script src="/s/js/materialize.min.js"></script>
-<script src="/s/js/stickUp.min.js"></script>
-<script src="/s/js/semantic.min.js"></script>
-<script src="/s/js/src/base.js"></script>
-<script type="text/javascript">
-    //initiating jQuery
-    jQuery(function ($) {
-        $(document).ready(function () {
-            //enabling stickUp on the '.navbar-wrapper' class
-            $('#myNav').stickUp();
-        });
-    });
-
-    // Initialize collapse button
-    $(".button-collapse").sideNav();
-    // Initialize collapsible (uncomment the line below if you use the dropdown variation)
-    //$('.collapsible').collapsible();
-
-</script>
+<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/vue/1.0.17/vue.min.js"></script>
+<script src="//cdn.bootcss.com/vue-resource/0.7.0/vue-resource.min.js"></script>
+<script src="//cdn.bootcss.com/materialize/0.97.7/js/materialize.min.js"></script>
+<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+<script src="/s/js/dist/base.js"></script>
 
 {% block js %}
 {% endblock %}

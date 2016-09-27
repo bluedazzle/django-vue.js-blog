@@ -39,7 +39,7 @@
             <div class="comment">
                 <div class="ui comments " style="max-width: 1600px;">
                     <h3 class="ui dividing header">评论</h3>
-                    <div class="comment" v-for="comment in comments">
+                    <div v-show="${ have_comments }}" class="comment" v-for="comment in comments">
                         <a class="avatar">
                             <img src="${ comment.author.avatar }}" style="height: 2.4em;">
                         </a>
@@ -76,6 +76,9 @@
                         </div>
 
                     </div>
+                    <div v-else >
+                        <h2 style="text-align: center; color:#9e9e9e;">暂无评论</h2>
+                    </div>
                     <div class="row">
                         <div class="col s12">
                             <div class="progress" v-show="submit">
@@ -109,14 +112,12 @@
     </div>
 {% endblock %}
 {% block js %}
-    <script src="/s/lib/prettify.min.js"></script>
-    <script src="/s/lib/raphael.min.js"></script>
-    <script src="/s/lib/underscore.min.js"></script>
-    <script src="/s/lib/sequence-diagram.min.js"></script>
-    <script src="/s/lib/flowchart.min.js"></script>
-    <script src="/s/lib/jquery.flowchart.min.js"></script>
-    <script src="/s/lib/marked.min.js"></script>
-    <script src="/s/js/editormd.js"></script>
-    <script src="/s/js/sco.message.js"></script>
-    <script src="/s/js/src/article.js"></script>
+    <script src="//cdn.bootcss.com/prettify/r298/prettify.min.js"></script>
+    <script src="//cdn.bootcss.com/raphael/2.2.1/raphael.min.js"></script>
+    <script src="//cdn.bootcss.com/underscore.js/1.8.3/underscore.js"></script>
+    <script src="//cdn.bootcss.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
+    <script src="//cdn.bootcss.com/flowchart/1.6.3/flowchart.min.js"></script>
+    <script src="//cdn.bootcss.com/marked/0.3.6/marked.min.js"></script>
+    <script src="//cdn.bootcss.com/sco.js/1.1.0/js/sco.message.min.js"></script>
+    <script src="/s/js/dist/detail.js"></script>
 {% endblock %}

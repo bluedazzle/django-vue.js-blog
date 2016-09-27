@@ -263,17 +263,17 @@ function generateSign(timestamp) {
     return sign;
 }
 
-function generateUrl(url) {
+window.generateUrl = function generateUrl(url) {
     var timestamp = new Date().getTime().toString().substring(0, 10);
     var sign = generateSign(timestamp);
     return HOST_ROOT + url + '?timestamp=' + timestamp + '&sign=' + sign;
-}
+};
 
-function generateUrlWithToken(url, token) {
+window.generateUrlWithToken = function generateUrlWithToken(url, token) {
     var timestamp = new Date().getTime().toString().substring(0, 10);
     var sign = generateSign(timestamp);
     return HOST_ROOT + url + '?timestamp=' + timestamp + '&sign=' + sign + '&token=' + token;
-}
+};
 
 function setCookie(name,value)
 {
