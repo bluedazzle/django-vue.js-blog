@@ -39,7 +39,7 @@
             <div class="comment">
                 <div class="ui comments " style="max-width: 1600px;">
                     <h3 class="ui dividing header">评论</h3>
-                    <div v-if="${ have_comments }}" class="comment" v-for="comment in comments">
+                    <div v-if="have_comments" class="comment" v-for="comment in comments">
                         <a class="avatar">
                             <img src="${ comment.author.avatar }}" style="height: 2.4em;">
                         </a>
