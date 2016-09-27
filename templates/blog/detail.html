@@ -39,7 +39,7 @@
             <div class="comment">
                 <div class="ui comments " style="max-width: 1600px;">
                     <h3 class="ui dividing header">评论</h3>
-                    <div v-if="have_comments" class="comment" v-for="comment in comments">
+                    <div v-show="have_comments" class="comment" v-for="comment in comments">
                         <a class="avatar">
                             <img src="${ comment.author.avatar }}" style="height: 2.4em;">
                         </a>
@@ -76,7 +76,7 @@
                         </div>
 
                     </div>
-                    <div v-else >
+                    <div v-else>
                         <h2 style="text-align: center; color:#9e9e9e;">暂无评论</h2>
                     </div>
                     <div class="row">
