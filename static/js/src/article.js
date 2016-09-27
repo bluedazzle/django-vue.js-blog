@@ -81,7 +81,7 @@ var vm = new Vue({
             this.$http.get(url, function (data) {
                 if (data.status == 1) {
                     this.$set('comments', data.body.comment_list);
-                    if(data.body.comment_list.length == 0){
+                    if(data.body.comment_list.length != 0){
                         this.have_comments = true;
                     }
                 }
