@@ -14,7 +14,7 @@ var vm = new Vue({
         },
         title: '留下评论',
         aid: 0,
-        have_comments: false,
+        no_comments: true,
         submit: false
     },
     methods: {
@@ -82,7 +82,7 @@ var vm = new Vue({
                 if (data.status == 1) {
                     this.$set('comments', data.body.comment_list);
                     if(data.body.comment_list.length != 0){
-                        this.have_comments = true;
+                        this.no_comments = false;
                     }
                 }
             })
