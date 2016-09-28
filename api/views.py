@@ -191,6 +191,9 @@ class LoginCallbackView(TemplateView):
         if code and state:
             access_token = get_access_token(code, state)
             email, nick, avatar = get_user_info(access_token)
+            print email
+            print nick
+            print avatar
             guest = Guest.objects.filter(email=email)
             token = self.create_token()
             if guest.exists():
