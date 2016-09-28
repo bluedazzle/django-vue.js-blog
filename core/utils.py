@@ -53,6 +53,12 @@ def create_token(count):
 def send_html_mail(subject, guest, article, recipient_list):
     html_content = loader.render_to_string('email.html', {'guest': guest,
                                                           'article': article})
-    msg = EmailMessage(subject, html_content, EMAIL_HOST_USER, recipient_list)
-    msg.content_subtype = "html"
-    msg.send()
+    itm = recipient_list[0]
+    if not itm:
+        return True
+    try:
+        msg = EmailMessage(subject, html_content, EMAIL_HOST_USER, recipient_list)
+        msg.content_subtype = "html"
+        msg.send()
+    except Exception, e:
+        print e

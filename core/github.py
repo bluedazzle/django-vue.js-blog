@@ -39,5 +39,7 @@ def get_user_info(access_token):
     json_data = json.loads(res.content)
     email = json_data.get('email')
     nick = json_data.get('name')
+    if not nick:
+        nick = json_data.get('login', '')
     avatar = json_data.get('avatar_url')
     return email, nick, avatar

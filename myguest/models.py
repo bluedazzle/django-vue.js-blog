@@ -11,7 +11,7 @@ from core.models import BaseModel
 class Guest(BaseModel, AbstractBaseUser):
     avatar = models.CharField(max_length=256, default='/s/image/avatar.png')
     nick = models.CharField(max_length=128)
-    email = models.CharField(max_length=256, unique=True)
+    email = models.CharField(max_length=256, null=True, blank=True)
     forbid = models.BooleanField(default=False)
     token = models.CharField(max_length=64, unique=True)
 
