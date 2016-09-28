@@ -14,5 +14,8 @@ Demo: [RaPo][1]
 
 4、更改页面样式,使用 material design 提升阅读体验
 
-[1]: http://www.rapospectre.com
+[详细说明][2]
+
+[1]: https://www.rapospectre.com
+[2]: https://www.rapospectre.com/blog/blog-update-verison-3
 
