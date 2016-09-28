@@ -191,9 +191,6 @@ class LoginCallbackView(TemplateView):
         if code and state:
             access_token = get_access_token(code, state)
             email, nick, avatar = get_user_info(access_token)
-            print email
-            print nick
-            print avatar
             guest = Guest.objects.filter(email=email)
             token = self.create_token()
             if guest.exists():
@@ -201,11 +198,11 @@ class LoginCallbackView(TemplateView):
                 guest.token = token
                 guest.save()
             else:
-                status, avatar_path = save_image(avatar, '{0}{1}.png'.format(nick, unicode(time.time()).split('.')[0]))
+                # status, avatar_path = save_image(avatar, '{0}{1}.png'.format(nick, unicode(time.time()).split('.')[0]))
                 guest = Guest(email=email, nick=nick, token=token)
                 guest.set_password('123456q_+|')
-                if status:
-                    guest.avatar = avatar_path
+                # if status:
+                guest.avatar = avatar
                 guest.save()
             comment = Comment.objects.filter(state=state)
             aid = 0
