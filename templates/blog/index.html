@@ -4,7 +4,7 @@
     <div id="vIndex">
         <h1 class="header" style="margin-top: 0.5em; color: #cdcec9;">文章</h1>
         <div class="collection">
-            <a href="{{ host }}/blog/${ article.id }}" v-for="article in articles" class="collection-item row waves-effect waves-light"><span
+            <a href="{{ host }}/blog/${ article.slug }}" v-for="article in articles" class="collection-item row waves-effect waves-light"><span
                     class="col s12 m10 l10 align-left" style="font-size: 1.2em;">${ article.title }}</span><span class="col m2 l2 hidden-my right-align"><div class="chip">${ article.create_time }}</div></span></a>
         </div>
     </div>
