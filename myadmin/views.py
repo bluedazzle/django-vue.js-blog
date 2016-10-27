@@ -7,9 +7,9 @@ import string
 from django.shortcuts import render
 
 # Create your views here.
-from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView, DeleteView
 
-from api.models import Article, Comment, CommentReply, Classification, Tag, Knowledge
+from api.models import Article, Comment, CommentReply, Classification, Tag, Knowledge, News
 from core.Mixin.CheckMixin import CheckTokenMixin, CheckAdminPermissionMixin, CheckSecurityMixin
 from core.Mixin.JsonRequestMixin import JsonRequestMixin
 from core.Mixin.StatusWrapMixin import *
@@ -169,3 +169,22 @@ class CommentListView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapM
             setattr(comment, 'reply', True)
         else:
             setattr(comment, 'reply', False)
+
+
+class NewsDetailView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonResponseMixin, DeleteView):
+    model = News
+    pk_url_kwarg = 'nid'
+    http_method_names = ['delete', 'get', 'put']
+
+    def put(self, request, *args, **kwargs):
+        nid = kwargs.get('nid')
+        news = News.objects.filter(id=nid)
+        if news.exists():
+            news = news[0]
+            news.like = not news.like
+            news.read = True
+            news.save()
+            return self.render_to_response({})
+        self.status_code = INFO_NO_EXIST
+        self.message = '消息不存在'
+        return self.render_to_response({})

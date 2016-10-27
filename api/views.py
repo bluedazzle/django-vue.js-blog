@@ -11,10 +11,10 @@ import time
 from django.core.serializers import serialize
 from django.db.models import Q
 from django.shortcuts import render, HttpResponseRedirect
-from django.views.generic import ListView, DetailView, CreateView, TemplateView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView, DeleteView
 
 from RaPo3.settings import HOST
-from api.models import Article, Comment, CommentReply, Classification, Tag, Knowledge
+from api.models import Article, Comment, CommentReply, Classification, Tag, Knowledge, News
 from core.Mixin.CheckMixin import CheckTokenMixin, CheckSecurityMixin
 from core.Mixin.JsonRequestMixin import JsonRequestMixin
 from core.Mixin.StatusWrapMixin import *
@@ -26,8 +26,9 @@ from core.github import get_github_auth, get_access_token, get_user_info
 from core.qn import generate_upload_token
 from core.utils import save_image, upload_picture, send_html_mail
 from myguest.models import Guest
-
 from django.core.mail import send_mail
+
+import hashlib
 
 
 class ArticleDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
@@ -294,3 +295,26 @@ class KnowDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Det
     http_method_names = ['get']
     pk_url_kwarg = 'kid'
     model = Knowledge
+
+
+class NewsListView(CheckSecurityMixin, StatusWrapMixin, JsonRequestMixin, MultipleJsonResponseMixin, ListView):
+    http_method_names = ['get', 'post']
+    model = News
+    paginate_by = 20
+    ordering = 'like, -read, -create_time'
+
+    def post(self, request, *args, **kwargs):
+        title = request.POST.get('title')
+        url = request.POST.get('url')
+        md5 = hashlib.md5(title).hexdigest()
+        news = News.objects.filter(unique_id=md5)
+        if not (title and url):
+            self.status_code = ERROR_DATA
+            self.message = '信息缺失'
+            return self.render_to_response({})
+        if news.exists():
+            self.status_code = INFO_EXISTED
+            self.message = '消息已存在'
+            return self.render_to_response({})
+        News(title=title, url=url, unique_id=md5).save()
+        return self.render_to_response({})

@@ -76,3 +76,15 @@ class Knowledge(BaseModel):
     def __unicode__(self):
         return self.question
 
+
+class News(BaseModel):
+    title = models.CharField(max_length=256)
+    url = models.CharField(max_length=256)
+    unique_id = models.CharField(max_length=64, unique=True)
+    like = models.BooleanField(default=True)
+    read = models.BooleanField(default=False)
+    cache = models.TextField()
+
+    def __unicode__(self):
+        return self.title
+
