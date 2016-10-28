@@ -4,12 +4,14 @@ from __future__ import unicode_literals
 import random
 import string
 
+import datetime
 import requests
 import time
 
 from PIL import Image
 from django.core.mail import EmailMessage
 from django.template import loader
+from django.utils.timezone import get_current_timezone
 
 from RaPo3.settings import EMAIL_HOST_USER
 
@@ -62,3 +64,12 @@ def send_html_mail(subject, guest, article, recipient_list):
         msg.send()
     except Exception, e:
         print e
+
+
+def string_to_datetime(time_str, time_format='%Y-%m-%d %H:%M:%S', use_tz=True):
+    dt = datetime.datetime.strptime(time_str, time_format)
+    if use_tz:
+        tz = get_current_timezone()
+        dt = tz.localize(dt)
+        dt = dt.astimezone(tz)
+    return dt

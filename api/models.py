@@ -83,6 +83,7 @@ class News(BaseModel):
     unique_id = models.CharField(max_length=64, unique=True)
     like = models.BooleanField(default=True)
     read = models.BooleanField(default=False)
+    time = models.DateTimeField(default=None)
     cache = models.TextField()
 
     def __unicode__(self):

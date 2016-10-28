@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 import json
 import random
 import string
+
+import datetime
 import markdown
 
 import time
@@ -11,6 +13,7 @@ import time
 from django.core.serializers import serialize
 from django.db.models import Q
 from django.shortcuts import render, HttpResponseRedirect
+from django.utils.timezone import get_current_timezone
 from django.views.generic import ListView, DetailView, CreateView, TemplateView, DeleteView
 
 from RaPo3.settings import HOST
@@ -24,7 +27,7 @@ from core.dss.Mixin import JsonResponseMixin, MultipleJsonResponseMixin, FormJso
 from core.dss.Serializer import serializer
 from core.github import get_github_auth, get_access_token, get_user_info
 from core.qn import generate_upload_token
-from core.utils import save_image, upload_picture, send_html_mail
+from core.utils import save_image, upload_picture, send_html_mail, string_to_datetime
 from myguest.models import Guest
 from django.core.mail import send_mail
 
@@ -306,6 +309,11 @@ class NewsListView(CheckSecurityMixin, StatusWrapMixin, JsonRequestMixin, Multip
     def post(self, request, *args, **kwargs):
         title = request.POST.get('title')
         url = request.POST.get('url')
+        news_time = request.POST.get('time')
+        if not news_time:
+            news_time = datetime.datetime.now(tz=get_current_timezone())
+        else:
+            news_time = string_to_datetime(news_time)
         md5 = hashlib.md5(title).hexdigest()
         news = News.objects.filter(unique_id=md5)
         if not (title and url):
@@ -316,5 +324,5 @@ class NewsListView(CheckSecurityMixin, StatusWrapMixin, JsonRequestMixin, Multip
             self.status_code = INFO_EXISTED
             self.message = '消息已存在'
             return self.render_to_response({})
-        News(title=title, url=url, unique_id=md5).save()
+        News(title=title, url=url, unique_id=md5, time=news_time).save()
         return self.render_to_response({})
