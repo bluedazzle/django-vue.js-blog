@@ -87,9 +87,9 @@ class AdminKnowledgeListView(CheckAdminPagePermissionMixin, TemplateView):
     template_name = 'admin/admin_know.html'
 
 
-class AdminNewsListView(CheckAdminPagePermissionMixin, TemplateView):
+class AdminCollectionsListView(CheckAdminPagePermissionMixin, TemplateView):
     http_method_names = ['get']
-    template_name = 'admin/admin_news.html'
+    template_name = 'admin/admin_collection.html'
 
 
 class AdminCommentListView(TemplateView):

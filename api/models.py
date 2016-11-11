@@ -77,15 +77,20 @@ class Knowledge(BaseModel):
         return self.question
 
 
-class News(BaseModel):
+class Collection(BaseModel):
+    priority_choice = [(3, '高优先'),
+                       (2, '正常'),
+                       (1, '低优先')]
+
     title = models.CharField(max_length=256)
     url = models.CharField(max_length=256)
     unique_id = models.CharField(max_length=64, unique=True)
     like = models.BooleanField(default=True)
     read = models.BooleanField(default=False)
     time = models.DateTimeField(default=None)
-    cache = models.TextField()
+    priority = models.IntegerField(default=0, choices=priority_choice)
+    cache = models.TextField(default='')
+    attachment = models.CharField(max_length=128, default='')
 
     def __unicode__(self):
         return self.title
-

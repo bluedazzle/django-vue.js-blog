@@ -18,6 +18,5 @@ urlpatterns = patterns('',
                        url(r'^admin/knowledge/new$', AdminModifyKnowledgeView.as_view()),
                        url(r'^admin/knowledge/(?P<kid>(\d)+)$', AdminModifyKnowledgeView.as_view()),
                        url(r'^admin/knowledge', AdminKnowledgeListView.as_view()),
-                       url(r'^admin/news', AdminNewsListView.as_view()),
-
+                       url(r'^admin/collection', AdminCollectionsListView.as_view()),
                        )

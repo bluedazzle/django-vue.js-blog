@@ -36,6 +36,7 @@ class CheckSecurityMixin(object):
         timestamp = self.request.GET.get('timestamp', '')
         sign = unicode(self.request.GET.get('sign', '')).upper()
         check = unicode(hashlib.md5('{0}{1}'.format(timestamp, self.secret)).hexdigest()).upper()
+        # print check
         if check == sign:
             return True
         return False

@@ -2,7 +2,7 @@
  * Created by RaPoSpectre on 4/20/16.
  */
 
-var HOST_ROOT = 'https://' + window.location.host + '/';
+var HOST_ROOT = 'http://' + window.location.host + '/';
 
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message

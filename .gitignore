@@ -6,3 +6,4 @@
 00*_*.py
 fabfile.py
 webpack/node_modules/
+collector/

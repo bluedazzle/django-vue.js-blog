@@ -17,7 +17,7 @@ from django.utils.timezone import get_current_timezone
 from django.views.generic import ListView, DetailView, CreateView, TemplateView, DeleteView
 
 from RaPo3.settings import HOST
-from api.models import Article, Comment, CommentReply, Classification, Tag, Knowledge, News
+from api.models import Article, Comment, CommentReply, Classification, Tag, Knowledge, Collection
 from core.Mixin.CheckMixin import CheckTokenMixin, CheckSecurityMixin
 from core.Mixin.JsonRequestMixin import JsonRequestMixin
 from core.Mixin.StatusWrapMixin import *
@@ -300,11 +300,12 @@ class KnowDetailView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Det
     model = Knowledge
 
 
-class NewsListView(CheckSecurityMixin, StatusWrapMixin, JsonRequestMixin, MultipleJsonResponseMixin, ListView):
+class CollectionsListView(CheckSecurityMixin, StatusWrapMixin, JsonRequestMixin, MultipleJsonResponseMixin, ListView):
     http_method_names = ['get', 'post']
-    model = News
+    exclude_attr = ['cache']
+    model = Collection
     paginate_by = 20
-    ordering = 'like, -read, -create_time'
+    ordering = ('-priority', 'like', '-read', '-create_time')
 
     def post(self, request, *args, **kwargs):
         title = request.POST.get('title')
@@ -315,7 +316,7 @@ class NewsListView(CheckSecurityMixin, StatusWrapMixin, JsonRequestMixin, Multip
         else:
             news_time = string_to_datetime(news_time)
         md5 = hashlib.md5(title).hexdigest()
-        news = News.objects.filter(unique_id=md5)
+        news = Collection.objects.filter(unique_id=md5)
         if not (title and url):
             self.status_code = ERROR_DATA
             self.message = '信息缺失'

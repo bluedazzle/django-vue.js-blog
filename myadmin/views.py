@@ -9,7 +9,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView, DeleteView
 
-from api.models import Article, Comment, CommentReply, Classification, Tag, Knowledge, News
+from api.models import Article, Comment, CommentReply, Classification, Tag, Knowledge, Collection
 from core.Mixin.CheckMixin import CheckTokenMixin, CheckAdminPermissionMixin, CheckSecurityMixin
 from core.Mixin.JsonRequestMixin import JsonRequestMixin
 from core.Mixin.StatusWrapMixin import *
@@ -171,14 +171,14 @@ class CommentListView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapM
             setattr(comment, 'reply', False)
 
 
-class NewsDetailView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonResponseMixin, DeleteView):
-    model = News
+class CollectionDetailView(CheckSecurityMixin, CheckAdminPermissionMixin, StatusWrapMixin, JsonResponseMixin, DeleteView):
+    model = Collection
     pk_url_kwarg = 'nid'
     http_method_names = ['delete', 'get', 'put']
 
     def put(self, request, *args, **kwargs):
         nid = kwargs.get('nid')
-        news = News.objects.filter(id=nid)
+        news = Collection.objects.filter(id=nid)
         if news.exists():
             news = news[0]
             news.like = not news.like

@@ -1,6 +1,7 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
+import hashlib
 import random
 import string
 
@@ -73,3 +74,7 @@ def string_to_datetime(time_str, time_format='%Y-%m-%d %H:%M:%S', use_tz=True):
         dt = tz.localize(dt)
         dt = dt.astimezone(tz)
     return dt
+
+
+def md5(string):
+    return hashlib.md5(string).hexdigest()

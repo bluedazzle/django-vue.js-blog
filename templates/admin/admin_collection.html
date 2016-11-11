@@ -1,6 +1,6 @@
 {% extends "admin/admin_base.html" %}
 {% block content %}
-    <div class="boloContainer" id="vNews">
+    <div class="boloContainer" id="vCollections">
         <div class="ui breadcrumb">
             <a class="section">新闻</a>
             <i class="right angle icon divider"></i>
@@ -9,9 +9,11 @@
         <table class="ui celled selectable table">
             <thead>
             <tr>
-                <th>新闻</th>
+                <th>消息</th>
+                <th>来源</th>
                 <th>获取时间</th>
-                <th>新闻时间</th>
+                <th>消息时间</th>
+                <th>附件</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -19,29 +21,34 @@
             <div v-show="noData" class="ui active inverted dimmer">
                 <div class="ui text loader">Loading</div>
             </div>
-            <tr v-for="(index, news) in news_list">
+            <tr v-for="(index, collection) in collections">
                 <td>
                     <h4 class="ui image header">
                         <img src="/s/image/avatar.png" class="ui mini rounded image">
-                        <div class="content">${ news.title }}
+                        <div class="content">${ collection.title }}
                             <div class="sub header">
                                 <span>&nbsp;</span>
-{#                                <span><i class="comments icon"></i>${ article.comment_number }}</span>#}
+                                {#                                <span><i class="comments icon"></i>${ article.comment_number }}</span>#}
                             </div>
                         </div>
                     </h4>
                 </td>
-                <td>${ news.create_time }}</td>
-                <td>${ news.time }}</td>
+                <td><img src="https://mart.coding.net/images/mart-logo.png" width="100px"></td>
+                <td><a class="ui small green button" v-show="collection.attachment" href="${ collection.attachment }}"
+                       target="_blank">附件</a>
+                    <button class="disabled ui small gray button" v-else="collection.attachment">附件</button>
+                </td>
+                <td>${ collection.create_time }}</td>
+                <td>${ collection.time }}</td>
                 <td>
-                    <a class="ui small blue button" href="${ news.url }}" target="_blank">详情</a>
-                    <button v-show="news.like" class="ui small gray labeled icon button"
+                    <a class="ui small blue button" href="${ collection.url }}" target="_blank">详情</a>
+                    <button v-show="collection.like" class="ui small gray labeled icon button"
                             @click="publishArticle(know.id)"><i
-                            class="icon download"></i>不感兴趣
+                            class="icon frown"></i>不感兴趣
                     </button>
-                    <button v-else="news.like" class="ui small green labeled icon button"
+                    <button v-else="collection.like" class="ui small green labeled icon button"
                             @click="publishArticle(know.id)"><i
-                            class="icon upload"></i>感兴趣
+                            class="icon smile"></i>感兴趣
                     </button>
                     <button class="ui small red labeled icon button" onclick="deleteArticle()"><i
                             class="icon delete"></i>删除
@@ -49,14 +56,14 @@
                     <div class="ui basic modal" id="delModal${ article.id }}">
                         <i class="close icon"></i>
                         <div class="header">
-                            删除新闻 ${ news.title }}
+                            删除消息 ${ colleciton.title }}
                         </div>
                         <div class="image content">
                             <div class="image">
                                 <i class="remove user icon"></i>
                             </div>
                             <div class="description">
-                                <p>情确认,您要删除新闻 ${ news.title }} 吗?</p>
+                                <p>情确认,您要删除消息 ${ collection.title }} 吗?</p>
                             </div>
                         </div>
                         <div class="actions">
@@ -76,9 +83,9 @@
             </tbody>
             <tfoot>
             <tr>
-                <th colspan="5">
+                <th colspan="6">
                     <a class="ui left floated small green labeled icon button" href="/api/v1/news"><i
-                            class="newspaper icon"></i> 添加新闻
+                            class="newspaper icon"></i> 添加消息
                     </a>
                     <div class="ui right floated pagination menu">
                         <a class="icon item" :class="{'disabled': pageObj.previous == undefined}"
@@ -100,5 +107,5 @@
     </div>
 {% endblock %}
 {% block script %}
-    <script src="/s/js/src/admin_knowledge.js"></script>
+    <script src="/s/js/src/admin_collection.js"></script>
 {% endblock %}

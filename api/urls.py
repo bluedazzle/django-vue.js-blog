@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 from api.views import ArticleDetailView, CommentView, LoginCallbackView, CommentListView, UserInfoView, ArticleListView, \
-    ClassificationView, TagView, UploadView, KnowListView, KnowDetailView, NewsListView
+    ClassificationView, TagView, UploadView, KnowListView, KnowDetailView, CollectionsListView
 
 urlpatterns = patterns('',
                        url(r'^articles', ArticleListView.as_view()),
@@ -15,5 +15,5 @@ urlpatterns = patterns('',
                        url(r'^upload', UploadView.as_view()),
                        url(r'^knowledge/(?P<kid>(\d)+)$', KnowDetailView.as_view()),
                        url(r'^knowledge', KnowListView.as_view()),
-                       url(r'^news', NewsListView.as_view()),
+                       url(r'^collections', CollectionsListView.as_view()),
                        )
