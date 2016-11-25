@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'myguest',
     'static_site',
     'core',
+    'weapp',
 )
 
 MIDDLEWARE_CLASSES = (

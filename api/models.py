@@ -26,7 +26,7 @@ class Classification(BaseModel):
 class Article(BaseModel):
     title = models.CharField(max_length=50)
     views = models.IntegerField(default=0)
-    tags = models.ManyToManyField(Tag, blank=True, related_name='tag_arts', null=True)
+    tags = models.ManyToManyField(Tag, related_name='tag_arts')
     classification = models.ForeignKey(Classification, related_name='cl_arts')
     content = models.TextField()
     publish = models.BooleanField(default=False)
@@ -71,7 +71,7 @@ class Knowledge(BaseModel):
     question = models.CharField(max_length=200)
     answer = models.TextField()
     publish = models.BooleanField(default=False)
-    env = models.ManyToManyField(Env, related_name='knowledges', null=True, blank=True)
+    env = models.ManyToManyField(Env, related_name='knowledges')
 
     def __unicode__(self):
         return self.question

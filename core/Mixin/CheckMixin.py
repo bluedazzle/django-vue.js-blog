@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect
 from core.Mixin.StatusWrapMixin import ERROR_PERMISSION_DENIED, ERROR_TOKEN, INFO_EXPIRE
 from core.models import Secret
 from myguest.models import Guest
+from weapp.models import WeUser
 
 
 class CheckSecurityMixin(object):
@@ -86,6 +87,31 @@ class CheckTokenMixin(object):
     def check_token(self):
         self.get_current_token()
         user_list = Guest.objects.filter(token=self.token)
+        if user_list.exists():
+            self.user = user_list[0]
+            return True
+        return False
+
+    def wrap_check_token_result(self):
+        result = self.check_token()
+        if not result:
+            self.message = 'token 错误, 请重新登陆'
+            self.status_code = ERROR_TOKEN
+            return False
+        return True
+
+
+class CheckWeUserMixin(object):
+    token = None
+    user = None
+
+    def get_current_token(self):
+        self.token = self.request.GET.get('token') or self.request.session.get('token', '')
+        return self.token
+
+    def check_token(self):
+        self.get_current_token()
+        user_list = WeUser.objects.filter(session=self.token)
         if user_list.exists():
             self.user = user_list[0]
             return True
