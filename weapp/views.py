@@ -11,7 +11,7 @@ from django.views.generic import DetailView, ListView
 
 from core.Mixin.CheckMixin import CheckSecurityMixin, CheckWeUserMixin
 from core.aliyun import get_whois_info
-from core.dss.Mixin import JsonResponseMixin
+from core.dss.Mixin import JsonResponseMixin, MultipleJsonResponseMixin
 from core.Mixin.StatusWrapMixin import *
 
 import requests
@@ -50,6 +50,16 @@ class WeAppAuthView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, Deta
             self.message = '授权错误'
             self.status_code = ERROR_VERIFY
             return self.render_to_response({})
+
+
+class UserCheckView(CheckSecurityMixin, CheckWeUserMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
+
+    def get(self, request, *args, **kwargs):
+        if not self.wrap_check_sign_result():
+            return self.render_to_response(dict())
+        if not self.wrap_check_token_result():
+            return self.render_to_response(dict())
+        return self.render_to_response({})
 
 
 class SearchView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, DetailView):
@@ -119,7 +129,7 @@ class DomainHandleView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, D
         return self.render_to_response({})
 
 
-class DomainListView(CheckSecurityMixin, CheckWeUserMixin, StatusWrapMixin, JsonResponseMixin, ListView):
+class DomainListView(CheckSecurityMixin, CheckWeUserMixin, StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     http_method_names = ['get']
 
     def get_queryset(self):
