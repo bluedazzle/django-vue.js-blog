@@ -20,7 +20,7 @@ class Domain(BaseModel):
 
 class WeUser(BaseModel):
     openid = models.CharField(max_length=128, unique=True)
-    session_id = models.CharField(max_length=256, unique=True)
+    session = models.CharField(max_length=256, unique=True)
     weapp_session = models.CharField(max_length=256, unique=True)
     nick = models.CharField(max_length=50, default='')
     avatar = models.CharField(max_length=128, default='')
