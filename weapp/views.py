@@ -100,7 +100,7 @@ class DomainHandleView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, D
         session = request.GET.get('token')
         if session:
             did = kwargs.get('did')
-            user = WeUser.objects.filter(session_id=session)
+            user = WeUser.objects.filter(session=session)
             if user.exists():
                 user = user[0]
                 dm = Domain.objects.filter(id=did)
