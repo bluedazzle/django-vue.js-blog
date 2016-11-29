@@ -119,8 +119,15 @@ class DomainHandleView(CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, D
         return self.render_to_response({})
 
 
-class DomainListView(CheckWeUserMixin, CheckSecurityMixin, StatusWrapMixin, JsonResponseMixin, ListView):
+class DomainListView(CheckSecurityMixin, CheckWeUserMixin, StatusWrapMixin, JsonResponseMixin, ListView):
     http_method_names = ['get']
 
     def get_queryset(self):
         return self.user.domain_list.all()
+
+    def get(self, request, *args, **kwargs):
+        if not self.wrap_check_sign_result():
+            return self.render_to_response(dict())
+        if not self.wrap_check_token_result():
+            return self.render_to_response(dict())
+        return super(DomainListView, self).get(request, *args, **kwargs)
