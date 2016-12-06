@@ -19,6 +19,6 @@ def get_whois_info(domain):
     return json.loads(result)
 
 
-# print get_whois_info('bolo.com')
+print get_whois_info('jd.com')
 
 # {u'StatusList': {u'Status': [u'ok']}, u'ExpirationDate': u'2017-10-28T00:00Z', u'RegistrantName': u'Bei Jing Jiang Shan Ru Hua Wang Luo Ke Ji You Xian Ze Ren Gong Si', u'RegistrantEmail': u'carry0716@163.com', u'Registrar': u'HICHINA ZHICHENG TECHNOLOGY LTD.', u'RequestId': u'708498A2-8117-448C-A760-77B7A357A9FC', u'DnsServers': {u'DnsServer': [u'dns10.hichina.com', u'dns9.hichina.com']}, u'RegistrationDate': u'2016-10-28T00:00Z'}
