@@ -3,7 +3,7 @@
 import os
 import sys
 
-from RaPo3.settings import BASE_DIR
+from collector.collector.settings import BASE_DIR
 
 sys.path.append(BASE_DIR)
 

@@ -1,6 +1,8 @@
 # coding: utf-8
 import sys
-from RaPo3.settings import BASE_DIR
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 
 from celery import Celery
