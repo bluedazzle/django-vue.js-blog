@@ -1,7 +1,6 @@
 # coding: utf-8
 import sys
 
-sys.path.append('/Users/RaPoSpectre/PycharmProjects/RaPo3/task_dispatch/')
 sys.path.append('/Users/RaPoSpectre/PycharmProjects/RaPo3/')
 
 from celery import Celery
