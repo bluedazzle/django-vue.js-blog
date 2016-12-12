@@ -1,7 +1,7 @@
 # coding: utf-8
 import sys
-
-sys.path.append('/Users/RaPoSpectre/PycharmProjects/RaPo3/')
+from RaPo3.settings import BASE_DIR
+sys.path.append(BASE_DIR)
 
 from celery import Celery
 from collector.collector.crawl_agent import crawl

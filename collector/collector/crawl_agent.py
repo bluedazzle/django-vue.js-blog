@@ -3,12 +3,13 @@
 import os
 import sys
 
+from RaPo3.settings import BASE_DIR
+
+sys.path.append(BASE_DIR)
+
 from twisted.internet import reactor
-import scrapy
 from scrapy.crawler import CrawlerRunner
 from spiders.coding_spider import ProxySpider
-from scrapy.utils.project import get_project_settings
-from scrapy.crawler import CrawlerProcess
 
 
 class CodingSpiderAgent(object):
@@ -16,8 +17,7 @@ class CodingSpiderAgent(object):
         self.crawler = None
 
     def crawl(self):
-        sys.path.append('/Users/RaPoSpectre/PycharmProjects/RaPo3/')
-        os.environ['SCRAPY_PROJECT'] = '/Users/RaPoSpectre/PycharmProjects/RaPo3/collector'
+        os.environ['SCRAPY_PROJECT'] = '{0}/{1}'.format(BASE_DIR, 'collector')
         runner = CrawlerRunner({'LOG_LEVEL': 'ERROR',
                                 'ITEM_PIPELINES': {
                                     'collector.collector.pipelines.CodingDuplicatesPipeline': 1,
@@ -28,23 +28,9 @@ class CodingSpiderAgent(object):
         d.addBoth(lambda _: reactor.stop())
         reactor.run()
 
-        # def crawl(self):
-        #     sys.path.append('/Users/RaPoSpectre/PycharmProjects/RaPo3/')
-        #     os.environ['SCRAPY_PROJECT'] = '/Users/RaPoSpectre/PycharmProjects/RaPo3/collector'
-        #     process = CrawlerProcess({'LOG_LEVEL': 'ERROR',
-        #                               'ITEM_PIPELINES': {
-        #                                   'collector.collector.pipelines.CodingDuplicatesPipeline': 1,
-        #                                   'collector.collector.pipelines.CodingPriorityPipeline': 2
-        #                               }})
-        #     process.crawl(ProxySpider)
-        #     process.start()
-
 
 crawler = CodingSpiderAgent()
 
 
 def crawl():
     crawler.crawl()
-
-
-# crawl()

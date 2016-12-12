@@ -8,9 +8,8 @@
 # http://doc.scrapy.org/en/latest/topics/items.html
 import sys
 import os
-
-sys.path.append('/Users/RaPoSpectre/PycharmProjects/RaPo3/')
-
+from RaPo3.settings import BASE_DIR
+sys.path.append(BASE_DIR)
 
 import django
 
