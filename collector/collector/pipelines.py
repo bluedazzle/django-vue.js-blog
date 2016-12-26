@@ -9,7 +9,6 @@ import datetime
 from django.utils.timezone import get_current_timezone
 from scrapy.exceptions import DropItem
 
-
 from api.models import Collection
 
 

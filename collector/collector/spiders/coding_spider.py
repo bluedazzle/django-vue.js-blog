@@ -15,7 +15,7 @@ from scrapy.http import Request
 from core.utils import md5
 
 
-class ProxySpider(scrapy.Spider):
+class CodingProjectSpider(scrapy.Spider):
     name = 'coding.net'
     host = 'https://mart.coding.net/'
     start_urls = ["https://mart.coding.net/projects?status=5"]
