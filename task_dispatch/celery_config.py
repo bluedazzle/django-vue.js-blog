@@ -1,11 +1,12 @@
 # coding: utf-8
 
 from datetime import timedelta
+from celery.schedules import crontab
 
 CELERYBEAT_SCHEDULE = {
     'coding.net': {
         'task': 'task.period_task',
-        'schedule': timedelta(seconds=30),
+        'schedule': crontab(minute=0, hour=1),
     },
 }
 
