@@ -37,9 +37,11 @@ def get_user_info(access_token):
     url = 'https://api.github.com/user?access_token={0}'.format(access_token)
     res = requests.get(url, headers={'Accept': 'application/json'})
     json_data = json.loads(res.content)
+    print json_data
     email = json_data.get('email')
     nick = json_data.get('name')
+    gid = json_data.get('id')
     if not nick:
         nick = json_data.get('login', '')
     avatar = json_data.get('avatar_url')
-    return email, nick, avatar
+    return gid, email, nick, avatar

@@ -14,6 +14,7 @@ class Guest(BaseModel, AbstractBaseUser):
     email = models.CharField(max_length=256, null=True, blank=True)
     forbid = models.BooleanField(default=False)
     token = models.CharField(max_length=64, unique=True)
+    uid = models.IntegerField(default=0)
 
     def __unicode__(self):
         return '{0}-{1}'.format(self.nick, self.email)
