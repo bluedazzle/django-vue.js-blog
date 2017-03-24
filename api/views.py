@@ -171,11 +171,11 @@ class CommentView(CheckSecurityMixin, CheckTokenMixin, StatusWrapMixin, JsonRequ
             comment.author = self.user
             comment.review = True
             comment.save()
-            send_mail('新评论', '你有一条新评论, 登陆查看 www.rapospectre.com ', 'bluedazzle@163.com',
-                      ['rapospectre@gmail.com'],
-                      fail_silently=True)
+            from task_dispatch.task import send_mail_task
+            send_mail_task.delay(2)
             if isinstance(comment, CommentReply):
-                send_html_mail('评论回复', comment.to, comment.comment.belong, [comment.to.email])
+                send_mail_task.delay(1, {"subject": '评论回复', "guest": comment.to, "article": comment.comment.belong,
+                                         "recipient_list": [comment.to.email]})
             return self.render_to_response(dict())
 
     def generate_state(self):
