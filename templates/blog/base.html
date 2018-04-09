@@ -10,6 +10,18 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/materialize/0.97.7/css/materialize.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" href="/s/css/main.min.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117199874-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-117199874-1');
+    </script>
+
     {% block css %}
     {% endblock %}
     <title>{% block title %}{{ blogtitle }}{% endblock %}</title>
@@ -74,11 +86,13 @@
 
 </div>
 <footer class="">
-        <div class="container" style="text-align: center; color: #cdcec9; margin-bottom: 30px; cursor: default;">
-            Designed by Django and Vue.js
-            © 2014-2016 Copyright <a href="http://www.rapospectre.com" style="color: #cdcec9;">RaPoSpectre</a><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254921518'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1254921518%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
-            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-        </div>
+    <div class="container" style="text-align: center; color: #cdcec9; margin-bottom: 30px; cursor: default;">
+        Designed by Django and Vue.js
+        © 2014-2016 Copyright <a href="http://www.rapospectre.com" style="color: #cdcec9;">RaPoSpectre</a>
+        <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1254921518'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1254921518%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+        <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+    </div>
 </footer>
 <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/vue/1.0.17/vue.min.js"></script>
