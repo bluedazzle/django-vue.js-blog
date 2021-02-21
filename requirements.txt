@@ -1,4 +1,4 @@
-Django==1.8.7
+Django==1.11.29
 pytz==2020.1
 redis==3.5.3
 requests==2.24.0
