@@ -1,0 +1,36 @@
+<uwsgi>
+    <socket>:8000</socket>
+    <listen>100</listen>
+    <master>true</master>
+    <processes>4</processes>
+    <buffer-size>16384</buffer-size>
+    <post-buffering>4096</post-buffering>
+    <post-buffering-bufsize>16384</post-buffering-bufsize>
+    <max-requests>1000</max-requests>
+    <limit-as>512</limit-as>
+    <reload-mercy>3</reload-mercy>
+    <harakiri>60</harakiri>
+    <lazy/>
+    <lock-engine>ipcsem</lock-engine>
+    <!-- <logto>/logs/riddle.site.log</logto> -->
+    <log-maxsize>2147483647</log-maxsize>
+    <!-- <disable-logging/> -->
+    <log-slow>500</log-slow>
+    <log-4xx/>
+    <log-5xx/>
+    <reload-on-as>512</reload-on-as>
+    <reload-on-rss>512</reload-on-rss>
+    <close-on-exec/>
+    <cache2>name=rapo_site,items=10000,bitmap=1,blocksize=2000,sweep_on_full=1,lazy=1</cache2>
+    <cache-expire-freq>6</cache-expire-freq>
+    <cache-blocksize>2000</cache-blocksize>
+    <chdir>/site/</chdir>
+    <pythonpath>/site/</pythonpath>
+    <env>DJANGO_SETTINGS_MODULE=RaPo3.settings</env>
+    <single-interpreter>true</single-interpreter>
+    <thunder-lock/>
+    <enable-threads>true</enable-threads>
+    <wsgi-file>/site/RaPo3/wsgi.py</wsgi-file>
+    <!-- <pidfile>/logs/uwsgi.pid</pidfile>
+    <daemonize>/logs/uwsgi.riddle.site.log</daemonize> -->
+</uwsgi>

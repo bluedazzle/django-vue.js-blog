@@ -7,3 +7,4 @@
 fabfile.py
 webpack/node_modules/
 *.rdb
+.env

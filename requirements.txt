@@ -1,0 +1,10 @@
+Django==1.8.7
+pytz==2020.1
+redis==3.5.3
+requests==2.24.0
+psycopg2==2.7.4
+uWSGI==2.0.17
+sentry-sdk
+markdown
+qiniu
+pillow

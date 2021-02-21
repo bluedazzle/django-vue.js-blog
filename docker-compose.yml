@@ -1,0 +1,35 @@
+version: '3'
+services:
+  app:
+    build: ./
+    volumes:
+      - ./:/site:rw
+    depends_on:
+      - pg
+      - redis
+
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+      - "8001:80" # 正式部署改为绑定外部 80
+    volumes:
+      - ./static:/site/static:cached
+      - ./conf/nginx/conf.d:/etc/nginx/conf.d:cached
+    depends_on:
+      - app
+
+  pg:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: ${RAPO_PASSWORD}
+      POSTGRES_USER: ${RAPO_USER}
+      POSTGRES_DB: ${RAPO_DB_NAME}
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+  redis:
+    restart: always
+    image: redis

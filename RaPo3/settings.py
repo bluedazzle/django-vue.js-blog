@@ -10,8 +10,9 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-
-import raven
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+from core.cf import conf
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -40,7 +41,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
-    'raven.contrib.django.raven_compat',
     # 'django_seo_js',
     'api',
     'myadmin',
@@ -79,21 +79,23 @@ WSGI_APPLICATION = 'RaPo3.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'rapo_site',
-        'USER': 'rapospectre',  # Not used with sqlite3.
-        'PASSWORD': '',  # Not used with sqlite3.
-        'HOST': 'localhost',  # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '5432',
+        'NAME': conf.rapo_db_name,
+        'USER': conf.rapo_user,  # Not used with sqlite3.
+        'PASSWORD': conf.rapo_password,  # Not used with sqlite3.
+        'HOST': conf.rapo_host,  # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': conf.rapo_port,
     }
 }
 
-RAVEN_CONFIG = {
-    'dsn': 'https://02d4c64a8e0c4d528362f7ee766ac5d8:3eaa9da4104343869729a0ca0d80b067@sentry.io/158073',
-    # If you are using git, you can also automatically configure the
-    # release based on the git info.
-    'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
-}
+sentry_sdk.init(
+    dsn="https://02d4c64a8e0c4d528362f7ee766ac5d8@o73389.ingest.sentry.io/158073",
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
 
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

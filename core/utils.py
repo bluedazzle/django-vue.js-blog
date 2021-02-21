@@ -8,21 +8,16 @@ import string
 import datetime
 import requests
 import time
+import os
 
 from PIL import Image
 from django.core.mail import EmailMessage
 from django.template import loader
 from django.utils.timezone import get_current_timezone
 
-from RaPo3.settings import EMAIL_HOST_USER
-
-from RaPo3.settings import BASE_DIR
-from api.models import Article
-
-UPLOAD_PATH = BASE_DIR + '/static'
-
-
 def save_image(url, name="default.jpg"):
+    from RaPo3.settings import BASE_DIR
+    UPLOAD_PATH = BASE_DIR + '/static'
     try:
         dir_path = '/upload/image/{0}'.format(name)
         save_path = '{0}{1}'.format(UPLOAD_PATH, dir_path)
@@ -39,6 +34,8 @@ def save_image(url, name="default.jpg"):
 
 
 def upload_picture(pic_file):
+    from RaPo3.settings import BASE_DIR
+    UPLOAD_PATH = BASE_DIR + '/static'
     pic_name = "{0}{1}".format(unicode(time.time()).replace('.', ''), pic_file.name)
     pic_path = '/upload/image/{0}'.format(pic_name)
     save_path = UPLOAD_PATH + pic_path
@@ -54,6 +51,7 @@ def create_token(count):
 
 
 def send_html_mail(subject, guest, article, recipient_list):
+    from RaPo3.settings import EMAIL_HOST_USER
     html_content = loader.render_to_string('email.html', {'guest': guest,
                                                           'article': article})
     itm = recipient_list[0]
